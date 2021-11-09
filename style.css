@@ -1,0 +1,24 @@
+.Instructions {
+	padding-left: 22px; /* rever padding */
+}
+
+#title {
+	text-align: center;
+}
+
+.out {
+	background-color: brown;
+	display: flex;
+}
+
+.mid {
+	background-color: green;
+	flex-grow: 1;
+	padding-top: 30px;
+	border-width: 20px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	
+}
