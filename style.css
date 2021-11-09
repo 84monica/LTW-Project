@@ -7,18 +7,44 @@
 }
 
 .out {
-	background-color: brown;
 	display: flex;
+	background-color: brown;
+	justify-content: space-around;
 }
+
+
 
 .mid {
 	background-color: green;
+	justify-content: space-around;
+	display: flex;
 	flex-grow: 1;
-	padding-top: 30px;
-	border-width: 20px;
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	
+	padding: 1em;
+	margin: 1em;
+	border: 1em;
+}
+
+.midd {
+	background-color: black;
+	justify-content: space-around;
+	margin: auto;
+	flex-grow: 1;
+	padding: 1em;
+	margin: 1em;
+	border: 1em;
+}
+
+.inn {
+	background-color: purple;
+	display: flex;
+	justify-content: space-around;
+}
+
+.in {
+	background-color: yellow;
+	display: inline-block;
+	flex-grow: 1;
+	padding: 1em;
+	margin: 1em;
+	border: 1em;
 }
