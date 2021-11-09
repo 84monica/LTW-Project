@@ -2,14 +2,23 @@
 	padding-left: 22px; /* rever padding */
 }
 
-#title {
-	text-align: center;
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2em;
+	width: 35%;
 }
 
 .out {
 	display: flex;
+	margin-top: 2em;
+	margin-left: auto;
+	margin-right: auto;
 	background-color: brown;
 	justify-content: space-around;
+	width: 70%;
+	height: 500px;
 }
 
 
@@ -19,8 +28,10 @@
 	justify-content: space-around;
 	display: flex;
 	flex-grow: 1;
-	padding: 1em;
-	margin: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
 	border: 1em;
 }
 
@@ -29,7 +40,8 @@
 	justify-content: space-around;
 	margin: auto;
 	flex-grow: 1;
-	padding: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
 	margin: 1em;
 	border: 1em;
 }
@@ -37,6 +49,7 @@
 .inn {
 	background-color: purple;
 	display: flex;
+	height: 50%;
 	justify-content: space-around;
 }
 
