@@ -66,3 +66,9 @@
 	padding: 1em;
 	margin: 1em;
 }
+
+#login {
+	display: block;
+	margin-left: 40%;
+	margin-right: auto;
+}
