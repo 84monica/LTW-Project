@@ -10,6 +10,10 @@
 	width: 35%;
 }
 
+.txtcenter {
+	margin-left: 30px;
+}
+
 .out {
 	border-radius: 30px;
 	display: flex;
@@ -93,6 +97,17 @@
 #summary {
 	position: absolute;
 	background-color: rgba(255, 255, 255, 0.9);
-	padding: 50px;
+	padding-left: 50px;
+	padding-right: 50px;
+	top: 350px;
 	z-index: 1;
+}
+
+#classification {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.9);
+	padding-left: 50px;
+	padding-right: 50px;
+	top: 400px;
+	z-index:0;
 }
