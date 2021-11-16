@@ -60,11 +60,28 @@
 	border-radius: 30px;
 	border-style: solid;
 	background-color: #8f6a4a;
-	display: inline-block;
+	display: inline-flex;
 	flex-grow: 1;
 	border-color: black;
 	padding: 1em;
 	margin: 1em;
+
+}
+
+.semente {
+	background-color: red;
+	border-radius: 30px;
+	flex-grow: 1;
+	width: 10px;
+	height: 10px;
+	justify-content: space-around;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+
+}
+
+.s1 {
+	margin: auto;
 }
 
 #login {
