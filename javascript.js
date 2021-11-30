@@ -2,41 +2,51 @@
 window.onload = function() {
 	class Board {
 		constructor() {
+			this.board = document.createElement("div");
+			this.mid;
 			this.midmid;
-			this.outer = document.createElement("div");
-			document.body.appendChild(this.outer);
-		}
-		createOuterDiv() {
-			this.outer.style.backgroundColor = "red";
-			this.outer.style.height = "500px";
-			this.outer.style.width = "70%";
+			this.holes;
+			this.seed = document.createElement("div");
+			this.seeds = [];
 
-			this.outer.style.display = "flex";
-			this.outer.style.justifyContent = "space-around";
-			this.outer.style.marginTop = "2em";
-			this.outer.style.marginLeft = "auto";
-			this.outer.style.marginRight = "auto";
 		}
 
-		createMidDiv() {
-			const mid = document.createElement("div");
-			this.outer.appendChild(mid);
+		createBoard() {
+			document.body.appendChild(this.board);
+
+			this.board.style.backgroundColor = "#dbbb9e";
+			this.board.style.height = "500px";
+			this.board.style.width = "70%";
+			this.board.style.display = "flex";
+			this.board.style.justifyContent = "space-around";
+			this.board.style.marginTop = "2em";
+			this.board.style.marginLeft = "auto";
+			this.board.style.marginRight = "auto";
+			this.board.style.borderColor = "black";
+			this.board.style.borderStyle = "solid";
+			this.board.style.borderRadius = "30px";
+		}
+
+		createPlayerBigHole() {
+			this.mid = document.createElement("div");
+			this.board.appendChild(this.mid);
    
-			mid.style.display = "flex";
-			mid.style.backgroundColor = "purple";
-			mid.style.flexGrow = "1";
-			mid.style.paddingTop = "1em";
-			mid.style.paddingBottom = "1em";
-			mid.style.margin = "1em";
-			mid.style.border = "1em";
+			this.mid.style.display = "flex";
+			this.mid.style.backgroundColor = "#8f6a4a";
+			this.mid.style.flexGrow = "1";
+			this.mid.style.paddingTop = "1em";
+			this.mid.style.paddingBottom = "1em";
+			this.mid.style.margin = "1em";
+			this.mid.style.borderColor = "black";
+			this.mid.style.borderStyle = "solid";
+			this.mid.style.borderRadius = "30px";
 	   }
 
 	   createMidMidDiv() {
 			this.midmid = document.createElement("div");
-			this.outer.appendChild(this.midmid);
+			this.board.appendChild(this.midmid);
 
 			this.midmid.style.display = "flex";
-			this.midmid.style.backgroundColor = "green";
 			this.midmid.style.flexGrow = "1";
 			this.midmid.style.paddingTop = "1em";
 			this.midmid.style.paddingBottom = "1em";
@@ -44,27 +54,59 @@ window.onload = function() {
 			this.midmid.style.border = "1em";
 		}
 
-		createInsideMidMid() {
-			const inside = document.createElement("div");
-			this.midmid.appendChild(inside);
+		createPlayerHoles() {
+			this.holes = document.createElement("div");
+			this.midmid.appendChild(this.holes);
 
-			inside.style.display = "flex";
-			inside.style.backgroundColor = "black";
-			inside.style.flexGrow = "1";
-			inside.style.paddingTop = "1em";
-			inside.style.paddingBottom = "1em";
-			inside.style.margin = "2em";
-			inside.style.border = "1em";
+			this.holes.style.display = "flex";
+			this.holes.style.backgroundColor = "black";
+			this.holes.style.flexGrow = "1";
+			this.holes.style.paddingTop = "1em";
+			this.holes.style.paddingBottom = "1em";
+			this.holes.style.border = "auto";
+			this.holes.style.display = "flex";
+			this.holes.style.backgroundColor = "#8f6a4a";
+			this.holes.style.margin = "1em";
+			this.holes.style.borderColor = "black";
+			this.holes.style.borderStyle = "solid";
+			this.holes.style.borderRadius = "30px";
+
+			// create seeds
+			for (let i = 0; i < 4; i++) {
+				this.seeds.push(this.createSeed());
+			}
+
+		}
+
+		createSeed() {
+			this.seed = document.createElement("div");
+			this.holes.appendChild(this.seed);
+
+			this.seed.style.paddingTop = "1em";
+			this.seed.style.paddingBottom = "1em";
+			this.seed.style.backgroundColor = "black";
+			this.seed.style.borderRadius = "30px";
+			this.seed.style.flexGrow = "1";
+			this.seed.style.width = "20px";
+			this.seed.style.height = "12px";
+			this.seed.style.justifyContent = "space-aroud";
+			this.seed.style.marginTop = "0.5em";
+			this.seed.style.marginBottom = "0.5em";			
 		}
 	}
 
 	this.board = new Board();
-	this.board.createOuterDiv();
-	this.board.createMidDiv();
+	this.board.createBoard();
+	this.board.createPlayerBigHole();
 	this.board.createMidMidDiv();
 
-	for (let i = 0; i < 6; i++) this.board.createInsideMidMid();
-	
-	this.board.createMidDiv();
+	for (let i = 0; i < 6; i++) this.board.createPlayerHoles();
 
+	this.board.createPlayerBigHole();
+
+	class Game {
+		constructor() {
+
+		}
+	}
 }
