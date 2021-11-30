@@ -2,16 +2,16 @@
 window.onload = function() {
 	class Board {
 		constructor() {
-			this.board = document.createElement("div");
+			this.board;
 			this.mid;
 			this.midmid;
 			this.holes;
-			this.seed = document.createElement("div");
 			this.seeds = [];
-
+			this.numberOfSeeds = [];
 		}
 
 		createBoard() {
+			this.board = document.createElement("div")
 			document.body.appendChild(this.board);
 
 			this.board.style.backgroundColor = "#dbbb9e";
@@ -54,7 +54,7 @@ window.onload = function() {
 			this.midmid.style.border = "1em";
 		}
 
-		createPlayerHoles() {
+		createPlayerHoles(indexHole) {
 			this.holes = document.createElement("div");
 			this.midmid.appendChild(this.holes);
 
@@ -71,42 +71,93 @@ window.onload = function() {
 			this.holes.style.borderStyle = "solid";
 			this.holes.style.borderRadius = "30px";
 
-			// create seeds
-			for (let i = 0; i < 4; i++) {
-				this.seeds.push(this.createSeed());
+			// create seeds only one time
+			if (this.seeds.length != 24) {
+				for (let i = 0; i < 4; i++) {
+					this.seeds.push(this.createSeed());
+					this.numberOfSeeds.push(4);
+				}
 			}
+			// show seeds if seeds already exists
+			else {
+				for (let i = 0; i < this.numberOfSeeds[indexHole]; i++) this.showSeeds();
+			}
+		}
 
+		showSeeds() {
+			this.createSeed();
+		}
+
+		clean() {
+			// cleans previous board
+			// DOESNT WORK
+
+			/*
+			this.board.style.display = "none";
+			this.mid.style.display = "none";
+			this.midmid.style.display = "none";
+			this.holes.style.display = "none";
+			*/
+		}
+
+		update() {
+			this.clean();
+			this.createBoard();
+			this.createPlayerBigHole();
+			this.createMidMidDiv();
+			for (let i = 0; i < 6; i++) this.createPlayerHoles(i);
+			this.createPlayerBigHole();
 		}
 
 		createSeed() {
-			this.seed = document.createElement("div");
-			this.holes.appendChild(this.seed);
+			var seed = document.createElement("div");
+			this.holes.appendChild(seed);
 
-			this.seed.style.paddingTop = "1em";
-			this.seed.style.paddingBottom = "1em";
-			this.seed.style.backgroundColor = "black";
-			this.seed.style.borderRadius = "30px";
-			this.seed.style.flexGrow = "1";
-			this.seed.style.width = "20px";
-			this.seed.style.height = "12px";
-			this.seed.style.justifyContent = "space-aroud";
-			this.seed.style.marginTop = "0.5em";
-			this.seed.style.marginBottom = "0.5em";			
+			seed.style.paddingTop = "1em";
+			seed.style.paddingBottom = "1em";
+			seed.style.backgroundColor = "black";
+			seed.style.borderRadius = "30px";
+			seed.style.flexGrow = "1";
+			seed.style.width = "20px";
+			seed.style.height = "12px";
+			seed.style.justifyContent = "space-aroud";
+			seed.style.marginTop = "0.5em";
+			seed.style.marginBottom = "0.5em";			
 		}
 	}
 
 	this.board = new Board();
-	this.board.createBoard();
-	this.board.createPlayerBigHole();
-	this.board.createMidMidDiv();
+	this.board.update();
 
-	for (let i = 0; i < 6; i++) this.board.createPlayerHoles();
-
-	this.board.createPlayerBigHole();
 
 	class Game {
-		constructor() {
+		constructor(Board) {
+			this.board = Board;
+		}
+
+		buttonclick() {
+			// clicks on board holes
+			
+			/*
+			var pagebutton = document.getElementById("selfclick");
+			pagebutton.click();
+			*/
+		}
+
+		moveSeed(indexHole) {
+			// updates number of seeds in class board
+
+			// empties hole
+			var seedsInHole = this.board.numberOfSeeds[indexHole];
+			this.board.numberOfSeeds[indexHole] = 0;
+
+			// distributes seeds
 
 		}
 	}
+
+	this.game = new Game(this.board);
+	// empies hole index 3
+	this.game.moveSeed(3);
+	this.board.update();
 }
