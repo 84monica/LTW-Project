@@ -123,7 +123,7 @@ window.onload = function() {
 			for (let i = 0; i < 6; i++) this.createPlayerHoles(i);
 			this.createInDiv();
 			// create player holes for player 2
-			for (let i = 7; i < 13; i++) this.createPlayerHoles(i);
+			for (let i = 6; i < 13; i++) this.createPlayerHoles(i);
 			this.createPlayerBigHole();
 		}
 
@@ -150,9 +150,10 @@ window.onload = function() {
 			var seedsInHole = this.numberOfSeeds[indexHole];
 			this.numberOfSeeds[indexHole] = 0;
 
-			// distributes seeds
-			for (let i = 1; i < seedsInHole; i++) {
-				this.numberOfSeeds[indexHole-i]++;
+			// distributes seeds counter-clockwise
+			for (let i = 1; i <= seedsInHole; i++) {
+				if (indexHole-i < 0) this.numberOfSeeds[indexHole-i+8]++;
+				else this.numberOfSeeds[indexHole-i]++;
 			}
 			// updates board so we can see the changes
 			this.update();
@@ -165,7 +166,7 @@ window.onload = function() {
 	this.board.update();
 
 	// só para testar função
-	this.board.moveSeed(3);
+	this.board.moveSeed(2);
 	
 	class Game {
 		constructor(Board) {
