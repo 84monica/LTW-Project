@@ -12,7 +12,7 @@ window.onload = function() {
 		}
 
 		createBoard() {
-			this.board = document.createElement("div");
+			this.board = document.getElementById("board");
 			document.body.appendChild(this.board);
 
 			this.board.style.backgroundColor = "#dbbb9e";
@@ -108,13 +108,12 @@ window.onload = function() {
 
 		clean() {
 			// cleans previous board
-			// ERRO FAZ CLEAN DO CABEÇALHO
-			document.body.innerHTML = '';
+			document.getElementById("board").innerHTML = '';
 		}
 
 		update() {
 			// upates board by cleaning and creating a new one
-			//this.clean();
+			this.clean();
 			this.createBoard();
 			this.createPlayerBigHole();
 			this.createMidMidDiv();
@@ -167,6 +166,7 @@ window.onload = function() {
 
 	// só para testar função
 	this.board.moveSeed(2);
+	this.board.update();
 	
 	class Game {
 		constructor(Board) {
