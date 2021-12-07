@@ -5,6 +5,7 @@ window.onload = function() {
 			this.board;
 			this.mid;
 			this.midmid;
+			this.in;
 			this.holes;
 			this.seeds = [];
 			this.numberOfSeeds = [];
@@ -46,17 +47,26 @@ window.onload = function() {
 			this.midmid = document.createElement("div");
 			this.board.appendChild(this.midmid);
 
-			this.midmid.style.display = "flex";
+			this.midmid.style.justifyContent = "space-around";
+			this.midmid.style.margin = "auto";
 			this.midmid.style.flexGrow = "1";
 			this.midmid.style.paddingTop = "1em";
 			this.midmid.style.paddingBottom = "1em";
-			this.midmid.style.margin = "auto";
+			this.midmid.style.margin = "1em";
 			this.midmid.style.border = "1em";
+		}
+
+		createInDiv() {
+			this.in = document.createElement("div");
+			this.in.style.justifyContent = "space-around";
+			this.in.style.height = "50%";
+			this.in.style.display = "flex";
+			this.midmid.appendChild(this.in);
 		}
 
 		createPlayerHoles(indexHole) {
 			this.holes = document.createElement("div");
-			this.midmid.appendChild(this.holes);
+			this.in.appendChild(this.holes);
 
 			// DOESN'T WORK 
 			// WHY
@@ -69,7 +79,7 @@ window.onload = function() {
 			this.holes.style.paddingTop = "1em";
 			this.holes.style.paddingBottom = "1em";
 			this.holes.style.border = "auto";
-			this.holes.style.display = "flex";
+			this.holes.style.display = "inline-flex";
 			this.holes.style.backgroundColor = "#8f6a4a";
 			this.holes.style.margin = "1em";
 			this.holes.style.borderColor = "black";
@@ -77,7 +87,9 @@ window.onload = function() {
 			this.holes.style.borderRadius = "30px";
 
 			// create seeds only one time
-			if (this.seeds.length != 24) {
+			// 0-23 player 1
+			// 24-47 player 2
+			if (this.seeds.length != 48) {
 				for (let i = 0; i < 4; i++) {
 					this.seeds.push(this.createSeed());
 					this.numberOfSeeds.push(4);
@@ -106,7 +118,12 @@ window.onload = function() {
 			this.createBoard();
 			this.createPlayerBigHole();
 			this.createMidMidDiv();
+			this.createInDiv();
+			// create player holes for player 1
 			for (let i = 0; i < 6; i++) this.createPlayerHoles(i);
+			this.createInDiv();
+			// create player holes for player 2
+			for (let i = 7; i < 13; i++) this.createPlayerHoles(i);
 			this.createPlayerBigHole();
 		}
 
