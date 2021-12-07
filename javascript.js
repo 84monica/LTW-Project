@@ -68,10 +68,13 @@ window.onload = function() {
 			this.holes = document.createElement("div");
 			this.in.appendChild(this.holes);
 
-			// DOESN'T WORK 
-			// WHY
-			//this.holes.addEventListener("click", this.moveSeed(3));
-			this.holes.addEventListener("click", function() {alert ("botão")})
+			const handler = (e) => {
+				// FALTA DAR PARA SELECIONAR DETERMINADO BOTÃO
+				this.moveSeed(2);
+				console.log(e);
+			};
+
+			this.holes.addEventListener("click", handler);
 
 			this.holes.style.display = "flex";
 			this.holes.style.backgroundColor = "black";
@@ -122,7 +125,7 @@ window.onload = function() {
 			for (let i = 0; i < 6; i++) this.createPlayerHoles(i);
 			this.createInDiv();
 			// create player holes for player 2
-			for (let i = 6; i < 13; i++) this.createPlayerHoles(i);
+			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
 			this.createPlayerBigHole();
 		}
 
@@ -151,6 +154,8 @@ window.onload = function() {
 
 			// distributes seeds counter-clockwise
 			for (let i = 1; i <= seedsInHole; i++) {
+				// ATENÇÃO!!! NÂO FUNCIONA PARA TODOS OS CASOS
+				// FALTA CONDIÇÃO PARA QUANDO VAI DE BAIXO PARA CIMA
 				if (indexHole-i < 0) this.numberOfSeeds[indexHole-i+8]++;
 				else this.numberOfSeeds[indexHole-i]++;
 			}
@@ -162,10 +167,6 @@ window.onload = function() {
 	// initializes board
 	this.board = new Board();
 	// creates board
-	this.board.update();
-
-	// só para testar função
-	this.board.moveSeed(2);
 	this.board.update();
 	
 	class Game {
