@@ -11,7 +11,7 @@ window.onload = function() {
 		}
 
 		createBoard() {
-			this.board = document.createElement("div")
+			this.board = document.createElement("div");
 			document.body.appendChild(this.board);
 
 			this.board.style.backgroundColor = "#dbbb9e";
@@ -58,6 +58,11 @@ window.onload = function() {
 			this.holes = document.createElement("div");
 			this.midmid.appendChild(this.holes);
 
+			// DOESN'T WORK 
+			// WHY
+			//this.holes.addEventListener("click", this.moveSeed(3));
+			this.holes.addEventListener("click", function() {alert ("botão")})
+
 			this.holes.style.display = "flex";
 			this.holes.style.backgroundColor = "black";
 			this.holes.style.flexGrow = "1";
@@ -85,23 +90,19 @@ window.onload = function() {
 		}
 
 		showSeeds() {
+			// shows current seeds
 			this.createSeed();
 		}
 
 		clean() {
 			// cleans previous board
-			// DOESNT WORK
-
-			/*
-			this.board.style.display = "none";
-			this.mid.style.display = "none";
-			this.midmid.style.display = "none";
-			this.holes.style.display = "none";
-			*/
+			// ERRO FAZ CLEAN DO CABEÇALHO
+			document.body.innerHTML = '';
 		}
 
 		update() {
-			this.clean();
+			// upates board by cleaning and creating a new one
+			//this.clean();
 			this.createBoard();
 			this.createPlayerBigHole();
 			this.createMidMidDiv();
@@ -110,6 +111,7 @@ window.onload = function() {
 		}
 
 		createSeed() {
+			// creates seeds
 			var seed = document.createElement("div");
 			this.holes.appendChild(seed);
 
@@ -124,40 +126,36 @@ window.onload = function() {
 			seed.style.marginTop = "0.5em";
 			seed.style.marginBottom = "0.5em";			
 		}
+
+		moveSeed(indexHole) {
+			// updates number of seeds in class board
+			// empties hole
+			var seedsInHole = this.numberOfSeeds[indexHole];
+			this.numberOfSeeds[indexHole] = 0;
+
+			// distributes seeds
+			for (let i = 1; i < seedsInHole; i++) {
+				this.numberOfSeeds[indexHole-i]++;
+			}
+			// updates board so we can see the changes
+			this.update();
+		}
 	}
 
+	// initializes board
 	this.board = new Board();
+	// creates board
 	this.board.update();
 
-
+	// só para testar função
+	this.board.moveSeed(3);
+	
 	class Game {
 		constructor(Board) {
 			this.board = Board;
 		}
-
-		buttonclick() {
-			// clicks on board holes
-			
-			/*
-			var pagebutton = document.getElementById("selfclick");
-			pagebutton.click();
-			*/
-		}
-
-		moveSeed(indexHole) {
-			// updates number of seeds in class board
-
-			// empties hole
-			var seedsInHole = this.board.numberOfSeeds[indexHole];
-			this.board.numberOfSeeds[indexHole] = 0;
-
-			// distributes seeds
-
-		}
 	}
 
 	this.game = new Game(this.board);
-	// empies hole index 3
-	this.game.moveSeed(3);
-	this.board.update();
+
 }
