@@ -3,11 +3,11 @@ window.onload = function() {
 	class Board {
 		constructor() {
 			this.board;
-			this.mid;
-			this.midmid;
+			this.bigHole;
+			this.bigHoleList = [];
+			this.midDiv;
 			this.in;
 			this.hole;
-			this.holesList = [];
 			this.seeds = [];
 			this.numberOfSeeds = [];
 		}
@@ -29,32 +29,47 @@ window.onload = function() {
 			this.board.style.borderRadius = "30px";
 		}
 
-		createPlayerBigHole() {
-			this.mid = document.createElement("div");
-			this.board.appendChild(this.mid);
+		createPlayerBigHole(playerIndex) { 
+			/* player 1 has index 0; player 2 as index 1  */
+			this.bigHole = document.createElement("div");
+			this.board.appendChild(this.bigHole);
    
-			this.mid.style.display = "flex";
-			this.mid.style.backgroundColor = "#8f6a4a";
-			this.mid.style.flexGrow = "1";
-			this.mid.style.paddingTop = "1em";
-			this.mid.style.paddingBottom = "1em";
-			this.mid.style.margin = "1em";
-			this.mid.style.borderColor = "black";
-			this.mid.style.borderStyle = "solid";
-			this.mid.style.borderRadius = "30px";
-	   }
+			this.bigHole.style.display = "flex";
+			this.bigHole.style.backgroundColor = "#8f6a4a";
+			this.bigHole.style.flexGrow = "1";
+			this.bigHole.style.paddingTop = "1em";
+			this.bigHole.style.paddingBottom = "1em";
+			this.bigHole.style.margin = "1em";
+			this.bigHole.style.borderColor = "black";
+			this.bigHole.style.borderStyle = "solid";
+			this.bigHole.style.borderRadius = "30px";
+			
+			// intializes big hole number of seeds with 0
+			if (this.bigHoleList.length != 2) {
+				this.bigHoleList.push(0);
+				console.log(playerIndex);
+			}
 
+			// show seeds in big holes
+			if (this.bigHoleList.length == 2) {
+				var numberOfSeeds = this.bigHoleList[playerIndex];
+				for (let i = 0; i < numberOfSeeds; i++) {
+					var seed = this.createSeed();
+					this.bigHole.appendChild(seed);
+				}
+			}
+		}
 	   createMidMidDiv() {
-			this.midmid = document.createElement("div");
-			this.board.appendChild(this.midmid);
+			this.midDiv = document.createElement("div");
+			this.board.appendChild(this.midDiv);
 
-			this.midmid.style.justifyContent = "space-around";
-			this.midmid.style.margin = "auto";
-			this.midmid.style.flexGrow = "1";
-			this.midmid.style.paddingTop = "1em";
-			this.midmid.style.paddingBottom = "1em";
-			this.midmid.style.margin = "1em";
-			this.midmid.style.border = "1em";
+			this.midDiv.style.justifyContent = "space-around";
+			this.midDiv.style.margin = "auto";
+			this.midDiv.style.flexGrow = "1";
+			this.midDiv.style.paddingTop = "1em";
+			this.midDiv.style.paddingBottom = "1em";
+			this.midDiv.style.margin = "1em";
+			this.midDiv.style.border = "1em";
 		}
 
 		createInDiv() {
@@ -62,7 +77,7 @@ window.onload = function() {
 			this.in.style.justifyContent = "space-around";
 			this.in.style.height = "50%";
 			this.in.style.display = "flex";
-			this.midmid.appendChild(this.in);
+			this.midDiv.appendChild(this.in);
 		}
 
 		createPlayerHoles(indexHole) {
@@ -93,8 +108,12 @@ window.onload = function() {
 			// 0-23 player 1
 			// 24-47 player 2
 			if (this.seeds.length != 48) {
+				// four seeds per hole
 				for (let i = 0; i < 4; i++) {
-					this.seeds.push(this.createSeed());
+					var seed = this.createSeed();
+					this.seeds.push(seed);
+
+					this.hole.appendChild(seed);
 				}
 				this.numberOfSeeds.push(4);
 			}
@@ -103,14 +122,11 @@ window.onload = function() {
 			else {
 				for (let i = 0; i < this.numberOfSeeds[indexHole]; i++) this.showSeeds();
 			}
-
-			// push current hole to holes list
-			this.holesList.push(this.hole);
 		}
 
 		showSeeds() {
 			// shows current seeds
-			this.createSeed();
+			this.hole.appendChild(this.createSeed());
 		}
 
 		clean() {
@@ -120,25 +136,30 @@ window.onload = function() {
 
 		update() {
 			// upates board by cleaning and creating a new one
-			this.holesList = [];
+			// cleans board
 			this.clean();
+
+			// creates board
 			this.createBoard();
-			this.createPlayerBigHole();
+
+			// player 1 big hole
+			this.createPlayerBigHole(0);
 			this.createMidMidDiv();
 			this.createInDiv();
+
 			// create player holes for player 1
 			for (let i = 5; i >= 0; i--) this.createPlayerHoles(i);
 			this.createInDiv();
 			// create player holes for player 2
 			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
-			this.createPlayerBigHole();
-			//[this.holesList[0], this.holesList[1], this.holesList[2], this.holesList[3], this.holesList[4], this.holesList[5]] = [this.holesList[5], this.holesList[4], this.holesList[3], this.holesList[2], this.holesList[1], this.holesList[0]];
+
+			// player 2 big hole
+			this.createPlayerBigHole(1);
 		}
 
 		createSeed() {
 			// creates seeds
 			var seed = document.createElement("div");
-			this.hole.appendChild(seed);
 
 			seed.style.paddingTop = "1em";
 			seed.style.paddingBottom = "1em";
@@ -149,7 +170,9 @@ window.onload = function() {
 			seed.style.height = "12px";
 			seed.style.justifyContent = "space-aroud";
 			seed.style.marginTop = "0.5em";
-			seed.style.marginBottom = "0.5em";			
+			seed.style.marginBottom = "0.5em";	
+			
+			return seed;
 		}
 
 		moveSeed(indexHole) {
@@ -160,6 +183,15 @@ window.onload = function() {
 
 			// distributes seeds counter-clockwise
 			for (let i=1; i<=seedsInHole; i++) {
+				// // if big hole from player 1
+				// if (indexHole+i == 6) {
+				// 	this.bigHoleList[0]++;
+				// }
+				// // if big hole from player 2
+				// if (indexHole+1 == 11) {
+				// 	this.bigHoleList[1]++;
+				// }
+				// else 
 				this.numberOfSeeds[(indexHole+i)%12]++;
 			}
 
