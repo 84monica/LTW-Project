@@ -6,7 +6,8 @@ window.onload = function() {
 			this.mid;
 			this.midmid;
 			this.in;
-			this.holes;
+			this.hole;
+			this.holesList = [];
 			this.seeds = [];
 			this.numberOfSeeds = [];
 		}
@@ -65,29 +66,28 @@ window.onload = function() {
 		}
 
 		createPlayerHoles(indexHole) {
-			this.holes = document.createElement("div");
-			this.in.appendChild(this.holes);
+			this.hole = document.createElement("div");
+			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
-				// FALTA DAR PARA SELECIONAR DETERMINADO BOTÃO
-				this.moveSeed(2);
-				console.log(e);
+				// select clicked hole 
+				this.moveSeed(indexHole);
 			};
+			// clicks hole
+			this.hole.addEventListener("click", handler);
 
-			this.holes.addEventListener("click", handler);
-
-			this.holes.style.display = "flex";
-			this.holes.style.backgroundColor = "black";
-			this.holes.style.flexGrow = "1";
-			this.holes.style.paddingTop = "1em";
-			this.holes.style.paddingBottom = "1em";
-			this.holes.style.border = "auto";
-			this.holes.style.display = "inline-flex";
-			this.holes.style.backgroundColor = "#8f6a4a";
-			this.holes.style.margin = "1em";
-			this.holes.style.borderColor = "black";
-			this.holes.style.borderStyle = "solid";
-			this.holes.style.borderRadius = "30px";
+			this.hole.style.display = "flex";
+			this.hole.style.backgroundColor = "black";
+			this.hole.style.flexGrow = "1";
+			this.hole.style.paddingTop = "1em";
+			this.hole.style.paddingBottom = "1em";
+			this.hole.style.border = "auto";
+			this.hole.style.display = "inline-flex";
+			this.hole.style.backgroundColor = "#8f6a4a";
+			this.hole.style.margin = "1em";
+			this.hole.style.borderColor = "black";
+			this.hole.style.borderStyle = "solid";
+			this.hole.style.borderRadius = "30px";
 
 			// create seeds only one time
 			// 0-23 player 1
@@ -95,13 +95,17 @@ window.onload = function() {
 			if (this.seeds.length != 48) {
 				for (let i = 0; i < 4; i++) {
 					this.seeds.push(this.createSeed());
-					this.numberOfSeeds.push(4);
 				}
+				this.numberOfSeeds.push(4);
 			}
+
 			// show seeds if seeds already exists
 			else {
 				for (let i = 0; i < this.numberOfSeeds[indexHole]; i++) this.showSeeds();
 			}
+
+			// push current hole to holes list
+			this.holesList.push(this.hole);
 		}
 
 		showSeeds() {
@@ -116,23 +120,25 @@ window.onload = function() {
 
 		update() {
 			// upates board by cleaning and creating a new one
+			this.holesList = [];
 			this.clean();
 			this.createBoard();
 			this.createPlayerBigHole();
 			this.createMidMidDiv();
 			this.createInDiv();
 			// create player holes for player 1
-			for (let i = 0; i < 6; i++) this.createPlayerHoles(i);
+			for (let i = 5; i >= 0; i--) this.createPlayerHoles(i);
 			this.createInDiv();
 			// create player holes for player 2
 			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
 			this.createPlayerBigHole();
+			//[this.holesList[0], this.holesList[1], this.holesList[2], this.holesList[3], this.holesList[4], this.holesList[5]] = [this.holesList[5], this.holesList[4], this.holesList[3], this.holesList[2], this.holesList[1], this.holesList[0]];
 		}
 
 		createSeed() {
 			// creates seeds
 			var seed = document.createElement("div");
-			this.holes.appendChild(seed);
+			this.hole.appendChild(seed);
 
 			seed.style.paddingTop = "1em";
 			seed.style.paddingBottom = "1em";
@@ -153,12 +159,10 @@ window.onload = function() {
 			this.numberOfSeeds[indexHole] = 0;
 
 			// distributes seeds counter-clockwise
-			for (let i = 1; i <= seedsInHole; i++) {
-				// ATENÇÃO!!! NÂO FUNCIONA PARA TODOS OS CASOS
-				// FALTA CONDIÇÃO PARA QUANDO VAI DE BAIXO PARA CIMA
-				if (indexHole-i < 0) this.numberOfSeeds[indexHole-i+8]++;
-				else this.numberOfSeeds[indexHole-i]++;
+			for (let i=1; i<=seedsInHole; i++) {
+				this.numberOfSeeds[(indexHole+i)%12]++;
 			}
+
 			// updates board so we can see the changes
 			this.update();
 		}
@@ -168,6 +172,8 @@ window.onload = function() {
 	this.board = new Board();
 	// creates board
 	this.board.update();
+	// O QUE FAZ ISTO?
+	[this.board.numberOfSeeds[0], this.board.numberOfSeeds[1], this.board.numberOfSeeds[2], this.board.numberOfSeeds[3], this.board.numberOfSeeds[4], this.board.numberOfSeeds[5]] = [this.board.numberOfSeeds[5], this.board.numberOfSeeds[4], this.board.numberOfSeeds[3], this.board.numberOfSeeds[2], this.board.numberOfSeeds[1], this.board.numberOfSeeds[0]];
 	
 	class Game {
 		constructor(Board) {
