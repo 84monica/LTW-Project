@@ -230,28 +230,28 @@ window.onload = function() {
 				if (seedsInHole != 0) {
 					this.numberOfSeeds[(indexHole+i)%12]++;
 					seedsInHole--;
-					// capture condition
+					// capture opponent seeds condition
 					if (seedsInHole == 0) {
+						// if ends on opponent hole do nothing
 						if ((indexHole+i <= 5 && this.currentPlayer == this.player2) || (indexHole+i > 5 && this.currentPlayer == this.player1)) break;
 						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
+							// if oppponent has zero seeds breaks
 							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
+							// capture seeds
 							if (this.currentPlayer == this.player1) {
 								this.bigHoleList[0] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
 							} else {
 								this.bigHoleList[1] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
 							}
+							// empty player current hole
 							this.numberOfSeeds[(indexHole+i)%12] = 0;
+							// empty opponent seeds
 							this.numberOfSeeds[11-((indexHole+i)%12)] = 0;
 						}
 					}
 				}
 				i++;
 			}
-			console.log(indexHole + " facing " + (11-indexHole));
-			console.log(this.numberOfSeeds[indexHole] + " - " + this.numberOfSeeds[11-indexHole]);
-
-			//if (indexHole + seedsInHole+1 == 6 && this.currentPlayer == this.player1) console.log("lmao");
-
 
 			// change current player
 			this.changePlayer();
