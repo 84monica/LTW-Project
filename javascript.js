@@ -97,11 +97,14 @@ window.onload = function() {
 			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
-				// select clicked hole 
-				this.moveSeed(indexHole);
-				// change current player
-				this.changePlayer();
-				console.log(this.currentPlayer);
+				// error if clicks on opponents hole
+				if ((indexHole <= 5 && this.currentPlayer == this.player2) || (indexHole > 5 && this.currentPlayer == this.player1)) alert("That's the opponets hole!");
+				else {
+					// select clicked hole 
+					this.moveSeed(indexHole);
+					// change current player
+					this.changePlayer();
+				}
 			};
 			// clicks hole
 			this.hole.addEventListener("click", handler);
@@ -203,11 +206,15 @@ window.onload = function() {
 				if (indexHole+i == 6 && this.currentPlayer == this.player1) {
 					this.bigHoleList[this.player1]++;
 					seedsInHole--;
+					// if last seed is in current player big hole then player gains a free move
+					if (seedsInHole == 0) this.changePlayer();
 				}
 				// if big hole from player 2
 				if (indexHole+i == 12 && this.currentPlayer == this.player2) {
 					this.bigHoleList[this.player2]++;
 					seedsInHole--;
+					// if last seed is in current player big hole then player gains a free move
+					if (seedsInHole == 0) this.changePlayer();
 				}
 				// distributes seeds in holes
 				if (seedsInHole != 0) {
