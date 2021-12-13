@@ -10,6 +10,8 @@ window.onload = function() {
 			this.hole;
 			this.seeds = [];
 			this.numberOfSeeds = [];
+			// initializes players
+			this.player1 = 0; this.player2 = 1;
 		}
 
 		createBoard() {
@@ -199,24 +201,10 @@ window.onload = function() {
 			this.update();
 		}
 	}
+	
+	// initializes board
+	this.board = new Board();
+	// creates board
+	this.board.update();
 
-	class Game {
-		constructor() {
-			// initializes board
-			this.board = new Board();
-
-			// initializes players
-			this.player1 = 0; this.player2 = 1;
-		}
-		start() {
-			this.board.update();
-		}
-		end() {
-			// ends game if no more moves are possible
-			return true;
-		}
-	}
-
-	this.game = new Game();
-	this.game.start();
 }
