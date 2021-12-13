@@ -230,12 +230,13 @@ window.onload = function() {
 				if (seedsInHole != 0) {
 					this.numberOfSeeds[(indexHole+i)%12]++;
 					seedsInHole--;
+					// capture condition
 					if (seedsInHole == 0) {
-						if(this.numberOfSeeds[(indexHole+i)%12] == 1){
+						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
 							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
-							if(this.currentPlayer == 0){
+							if (this.currentPlayer == 0) {
 								this.bigHoleList[0] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
-							} else{
+							} else {
 								this.bigHoleList[1] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
 							}
 							this.numberOfSeeds[(indexHole+i)%12] = 0;
@@ -250,7 +251,7 @@ window.onload = function() {
 
 			//if (indexHole + seedsInHole+1 == 6 && this.currentPlayer == this.player1) console.log("lmao");
 
-			
+
 			// change current player
 			this.changePlayer();
 			// updates board so we can see the changes
