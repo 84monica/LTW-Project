@@ -102,8 +102,6 @@ window.onload = function() {
 				else {
 					// select clicked hole 
 					this.moveSeed(indexHole);
-					// change current player
-					this.changePlayer();
 				}
 			};
 			// clicks hole
@@ -152,12 +150,17 @@ window.onload = function() {
 			document.getElementById("board").innerHTML = '';
 		}
 
+		showCurrentPlayer() {
+			document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", make your move";
+		}
+
 		update() {
 			// upates board by cleaning and creating a new one
 			// cleans board
 			this.clean();
 
 			// creates board
+			this.showCurrentPlayer();
 			this.createBoard();
 
 			// player 1 big hole
@@ -224,6 +227,8 @@ window.onload = function() {
 				i++;
 			}
 
+			// change current player
+			this.changePlayer();
 			// updates board so we can see the changes
 			this.update();
 		}
