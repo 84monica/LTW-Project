@@ -51,7 +51,7 @@ window.onload = function() {
 			}
 
 			// show seeds in big holes
-			if (this.bigHoleList.length == 2) {
+			else {
 				var numberOfSeeds = this.bigHoleList[playerIndex];
 				for (let i = 0; i < numberOfSeeds; i++) {
 					var seed = this.createSeed();
@@ -183,16 +183,17 @@ window.onload = function() {
 
 			// distributes seeds counter-clockwise
 			for (let i=1; i<=seedsInHole; i++) {
-				// // if big hole from player 1
-				// if (indexHole+i == 6) {
-				// 	this.bigHoleList[0]++;
-				// }
-				// // if big hole from player 2
-				// if (indexHole+1 == 11) {
-				// 	this.bigHoleList[1]++;
-				// }
-				// else 
-				this.numberOfSeeds[(indexHole+i)%12]++;
+				// if big hole from player 1
+				if (indexHole+i == 6) {
+					this.bigHoleList[0]++;
+					seedsInHole--;
+				}
+				// if big hole from player 2
+				if (indexHole+i == 12) {
+					this.bigHoleList[1]++;
+					seedsInHole--;
+				}
+				if (seedsInHole != 0) this.numberOfSeeds[(indexHole+i)%12]++;
 			}
 
 			// updates board so we can see the changes
@@ -204,9 +205,7 @@ window.onload = function() {
 	this.board = new Board();
 	// creates board
 	this.board.update();
-	// O QUE FAZ ISTO?
-	[this.board.numberOfSeeds[0], this.board.numberOfSeeds[1], this.board.numberOfSeeds[2], this.board.numberOfSeeds[3], this.board.numberOfSeeds[4], this.board.numberOfSeeds[5]] = [this.board.numberOfSeeds[5], this.board.numberOfSeeds[4], this.board.numberOfSeeds[3], this.board.numberOfSeeds[2], this.board.numberOfSeeds[1], this.board.numberOfSeeds[0]];
-	
+
 	class Game {
 		constructor(Board) {
 			this.board = Board;
