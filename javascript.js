@@ -66,7 +66,8 @@ window.onload = function() {
 				}
 			}
 		}
-	   createMidMidDiv() {
+
+	    createMidMidDiv() {
 			this.midDiv = document.createElement("div");
 			this.board.appendChild(this.midDiv);
 
@@ -85,11 +86,6 @@ window.onload = function() {
 			this.in.style.height = "50%";
 			this.in.style.display = "flex";
 			this.midDiv.appendChild(this.in);
-		}
-
-		changePlayer() {
-			if (this.currentPlayer == this.player2) this.currentPlayer = this.player1;
-			else this.currentPlayer = this.player2;
 		}
 
 		createPlayerHoles(indexHole) {
@@ -141,44 +137,6 @@ window.onload = function() {
 			}
 		}
 
-		showSeeds() {
-			// shows current seeds
-			this.hole.appendChild(this.createSeed());
-		}
-
-		clean() {
-			// cleans previous board
-			document.getElementById("board").innerHTML = '';
-		}
-
-		showCurrentPlayer() {
-			document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", make your move";
-		}
-
-		update() {
-			// upates board by cleaning and creating a new one
-			// cleans board
-			this.clean();
-
-			// creates board
-			this.showCurrentPlayer();
-			this.createBoard();
-
-			// player 1 big hole
-			this.createPlayerBigHole(this.player1);
-			this.createMidMidDiv();
-			this.createInDiv();
-
-			// create player holes for player 1
-			for (let i = 5; i >= 0; i--) this.createPlayerHoles(i);
-			this.createInDiv();
-			// create player holes for player 2
-			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
-
-			// player 2 big hole
-			this.createPlayerBigHole(this.player2);
-		}
-
 		createSeed() {
 			// creates seeds
 			var seed = document.createElement("div");
@@ -197,6 +155,11 @@ window.onload = function() {
 			return seed;
 		}
 
+		showSeeds() {
+			// shows current seeds
+			this.hole.appendChild(this.createSeed());
+		}
+
 		moveSeed(indexHole) {
 			// updates number of seeds in class board
 			// empties hole
@@ -212,7 +175,7 @@ window.onload = function() {
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
 					if (seedsInHole == 0) {
-						document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", you gained a free move";
+						alert("Player1 gained one more round!");
 						this.changePlayer();
 					}
 				}
@@ -222,7 +185,7 @@ window.onload = function() {
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
 					if (seedsInHole == 0) {
-						document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", you gained a free move";
+						alert("Player2 gained one more round!");
 						this.changePlayer();
 					} 
 				}
@@ -258,11 +221,55 @@ window.onload = function() {
 			// updates board so we can see the changes
 			this.update();
 		}
+
+		endGame() {
+			// condition to end game
+			
+		}
+
+		changePlayer() {
+			// updates player if the other player has made its move
+			if (this.currentPlayer == this.player2) this.currentPlayer = this.player1;
+			else this.currentPlayer = this.player2;
+		}
+
+		showCurrentPlayer() {
+			// show current player in html
+			document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", make your move";
+		}
+
+		clean() {
+			// cleans previous board
+			document.getElementById("board").innerHTML = '';
+		}
+
+		update() {
+			// upates board by cleaning and creating a new one
+			// cleans board
+			this.clean();
+
+			// creates board
+			this.showCurrentPlayer();
+			this.createBoard();
+
+			// player 1 big hole
+			this.createPlayerBigHole(this.player1);
+			this.createMidMidDiv();
+			this.createInDiv();
+
+			// create player holes for player 1
+			for (let i = 5; i >= 0; i--) this.createPlayerHoles(i);
+			this.createInDiv();
+			// create player holes for player 2
+			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
+
+			// player 2 big hole
+			this.createPlayerBigHole(this.player2);
+		}
 	}
 	
 	// initializes board
 	this.board = new Board();
 	// creates board
 	this.board.update();
-
 }
