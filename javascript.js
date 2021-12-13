@@ -203,8 +203,10 @@ window.onload = function() {
 							// capture seeds
 							if (this.currentPlayer == this.player1) {
 								this.bigHoleList[0] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
+								alert("You captured the opponents seeds");
 							} else {
 								this.bigHoleList[1] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
+								alert("You captured the opponents seeds");
 							}
 							// empty player current hole
 							this.numberOfSeeds[(indexHole+i)%12] = 0;
@@ -224,7 +226,37 @@ window.onload = function() {
 
 		endGame() {
 			// condition to end game
-			
+			var end = true;
+
+			// if player 2 has no seeds player 1 collects all of them
+			for (let i = 5; i < 12; i++) {
+				if (this.numberOfSeeds[i] != 0) end = false;
+			}
+			if (end) {
+				// player 1 collects all of his seeds into bigHole
+				for (let i = 0; i < 6; i++) {
+					this.bigHoleList[this.player1] += this.numberOfSeeds[i];
+				}
+			}
+			// if player 1 has no seeds player 2 collects all of them
+			else {
+				end = true;
+				for (let i = 0; i < 6; i++) {
+					if (this.numberOfSeeds[i] != 0) end = false;
+				}
+				if (end) {
+					// player 2 collects all of his seeds into bigHole
+					for (let i = 5; i < 12; i++) {
+						this.bigHoleList[this.player1] += this.numberOfSeeds[i];
+					}
+				}
+			}
+
+			// wins the player with more seeds in the bigHoles
+			if (end) {
+				if (this.bigHoleList[this.player1] > this.bigHoleList[this.player2]) alert("Congratulations, Player1 won the Game!");
+				else alert("Congratulations, Player2 won the Game!");
+			}
 		}
 
 		changePlayer() {
@@ -247,6 +279,7 @@ window.onload = function() {
 			// upates board by cleaning and creating a new one
 			// cleans board
 			this.clean();
+			this.endGame();
 
 			// creates board
 			this.showCurrentPlayer();
