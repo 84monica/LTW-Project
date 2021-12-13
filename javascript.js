@@ -116,6 +116,7 @@ window.onload = function() {
 			this.hole.style.display = "inline-flex";
 			this.hole.style.backgroundColor = "#8f6a4a";
 			this.hole.style.margin = "1em";
+			this.hole.style.width = "100px"
 			this.hole.style.borderColor = "black";
 			this.hole.style.borderStyle = "solid";
 			this.hole.style.borderRadius = "30px";
@@ -210,23 +211,46 @@ window.onload = function() {
 					this.bigHoleList[this.player1]++;
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
-					if (seedsInHole == 0) this.changePlayer();
+					if (seedsInHole == 0) {
+						document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", you gained a free move";
+						this.changePlayer();
+					}
 				}
 				// if big hole from player 2
 				if (indexHole+i == 12 && this.currentPlayer == this.player2) {
 					this.bigHoleList[this.player2]++;
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
-					if (seedsInHole == 0) this.changePlayer();
+					if (seedsInHole == 0) {
+						document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", you gained a free move";
+						this.changePlayer();
+					} 
 				}
 				// distributes seeds in holes
 				if (seedsInHole != 0) {
 					this.numberOfSeeds[(indexHole+i)%12]++;
 					seedsInHole--;
+					if (seedsInHole == 0) {
+						if(this.numberOfSeeds[(indexHole+i)%12] == 1){
+							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
+							if(this.currentPlayer == 0){
+								this.bigHoleList[0] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
+							} else{
+								this.bigHoleList[1] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
+							}
+							this.numberOfSeeds[(indexHole+i)%12] = 0;
+							this.numberOfSeeds[11-((indexHole+i)%12)] = 0;
+						}
+					}
 				}
 				i++;
 			}
+			console.log(indexHole + " facing " + (11-indexHole));
+			console.log(this.numberOfSeeds[indexHole] + " - " + this.numberOfSeeds[11-indexHole]);
 
+			//if (indexHole + seedsInHole+1 == 6 && this.currentPlayer == this.player1) console.log("lmao");
+
+			
 			// change current player
 			this.changePlayer();
 			// updates board so we can see the changes
