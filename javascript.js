@@ -197,7 +197,8 @@ window.onload = function() {
 			this.numberOfSeeds[indexHole] = 0;
 
 			// distributes seeds counter-clockwise
-			for (let i=1; i<=seedsInHole; i++) {
+			var i = 1;
+			while(seedsInHole > 0) {
 				// if big hole from player 1
 				if (indexHole+i == 6 && this.currentPlayer == this.player1) {
 					this.bigHoleList[this.player1]++;
@@ -209,7 +210,11 @@ window.onload = function() {
 					seedsInHole--;
 				}
 				// distributes seeds in holes
-				if (seedsInHole != 0) this.numberOfSeeds[(indexHole+i)%12]++;
+				if (seedsInHole != 0) {
+					this.numberOfSeeds[(indexHole+i)%12]++;
+					seedsInHole--;
+				}
+				i++;
 			}
 
 			// updates board so we can see the changes
