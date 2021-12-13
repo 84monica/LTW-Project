@@ -3,15 +3,21 @@ window.onload = function() {
 	class Board {
 		constructor() {
 			this.board;
+			// big player holes
 			this.bigHole;
 			this.bigHoleList = [];
+
 			this.midDiv;
 			this.in;
+			
+			// small holes and seeds
 			this.hole;
 			this.seeds = [];
 			this.numberOfSeeds = [];
+
 			// initializes players
 			this.player1 = 0; this.player2 = 1;
+			this.currentPlayer = this.player1;
 		}
 
 		createBoard() {
@@ -81,6 +87,11 @@ window.onload = function() {
 			this.midDiv.appendChild(this.in);
 		}
 
+		changePlayer() {
+			if (this.currentPlayer == this.player2) this.currentPlayer = this.player1;
+			else this.currentPlayer = this.player2;
+		}
+
 		createPlayerHoles(indexHole) {
 			this.hole = document.createElement("div");
 			this.in.appendChild(this.hole);
@@ -88,6 +99,9 @@ window.onload = function() {
 			const handler = (e) => {
 				// select clicked hole 
 				this.moveSeed(indexHole);
+				// change current player
+				this.changePlayer();
+				console.log(this.currentPlayer);
 			};
 			// clicks hole
 			this.hole.addEventListener("click", handler);
@@ -144,7 +158,7 @@ window.onload = function() {
 			this.createBoard();
 
 			// player 1 big hole
-			this.createPlayerBigHole(0);
+			this.createPlayerBigHole(this.player1);
 			this.createMidMidDiv();
 			this.createInDiv();
 
@@ -155,7 +169,7 @@ window.onload = function() {
 			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
 
 			// player 2 big hole
-			this.createPlayerBigHole(1);
+			this.createPlayerBigHole(this.player2);
 		}
 
 		createSeed() {
@@ -185,15 +199,16 @@ window.onload = function() {
 			// distributes seeds counter-clockwise
 			for (let i=1; i<=seedsInHole; i++) {
 				// if big hole from player 1
-				if (indexHole+i == 6) {
-					this.bigHoleList[0]++;
+				if (indexHole+i == 6 && this.currentPlayer == this.player1) {
+					this.bigHoleList[this.player1]++;
 					seedsInHole--;
 				}
 				// if big hole from player 2
-				if (indexHole+i == 12) {
-					this.bigHoleList[1]++;
+				if (indexHole+i == 12 && this.currentPlayer == this.player2) {
+					this.bigHoleList[this.player2]++;
 					seedsInHole--;
 				}
+				// distributes seeds in holes
 				if (seedsInHole != 0) this.numberOfSeeds[(indexHole+i)%12]++;
 			}
 
