@@ -47,7 +47,6 @@ window.onload = function() {
 			// intializes big hole number of seeds with 0
 			if (this.bigHoleList.length != 2) {
 				this.bigHoleList.push(0);
-				console.log(playerIndex);
 			}
 
 			// show seeds in big holes
@@ -201,17 +200,23 @@ window.onload = function() {
 		}
 	}
 
-	// initializes board
-	this.board = new Board();
-	// creates board
-	this.board.update();
-
 	class Game {
-		constructor(Board) {
-			this.board = Board;
+		constructor() {
+			// initializes board
+			this.board = new Board();
+
+			// initializes players
+			this.player1 = 0; this.player2 = 1;
+		}
+		start() {
+			this.board.update();
+		}
+		end() {
+			// ends game if no more moves are possible
+			return true;
 		}
 	}
 
-	this.game = new Game(this.board);
-
+	this.game = new Game();
+	this.game.start();
 }
