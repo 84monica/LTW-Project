@@ -232,9 +232,10 @@ window.onload = function() {
 					seedsInHole--;
 					// capture condition
 					if (seedsInHole == 0) {
+						if ((indexHole+i <= 5 && this.currentPlayer == this.player2) || (indexHole+i > 5 && this.currentPlayer == this.player1)) break;
 						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
 							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
-							if (this.currentPlayer == 0) {
+							if (this.currentPlayer == this.player1) {
 								this.bigHoleList[0] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
 							} else {
 								this.bigHoleList[1] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
