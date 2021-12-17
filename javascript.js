@@ -22,35 +22,15 @@ window.onload = function() {
 
 		createBoard() {
 			this.board = document.getElementById("board");
+			this.board.setAttribute('class', 'out');
 			document.body.appendChild(this.board);
-
-			this.board.style.backgroundColor = "#dbbb9e";
-			this.board.style.height = "500px";
-			this.board.style.width = "70%";
-			this.board.style.display = "flex";
-			this.board.style.justifyContent = "space-around";
-			this.board.style.marginTop = "2em";
-			this.board.style.marginLeft = "auto";
-			this.board.style.marginRight = "auto";
-			this.board.style.borderColor = "black";
-			this.board.style.borderStyle = "solid";
-			this.board.style.borderRadius = "30px";
 		}
 
 		createPlayerBigHole(playerIndex) { 
 			/* player 1 has index 0; player 2 as index 1  */
 			this.bigHole = document.createElement("div");
+			this.bigHole.setAttribute('class', 'in');
 			this.board.appendChild(this.bigHole);
-   
-			this.bigHole.style.display = "flex";
-			this.bigHole.style.backgroundColor = "#8f6a4a";
-			this.bigHole.style.flexGrow = "1";
-			this.bigHole.style.paddingTop = "1em";
-			this.bigHole.style.paddingBottom = "1em";
-			this.bigHole.style.margin = "1em";
-			this.bigHole.style.borderColor = "black";
-			this.bigHole.style.borderStyle = "solid";
-			this.bigHole.style.borderRadius = "30px";
 			
 			// intializes big hole number of seeds with 0
 			if (this.bigHoleList.length != 2) {
@@ -69,27 +49,19 @@ window.onload = function() {
 
 	    createMidMidDiv() {
 			this.midDiv = document.createElement("div");
+			this.midDiv.setAttribute('class', 'mid');
 			this.board.appendChild(this.midDiv);
-
-			this.midDiv.style.justifyContent = "space-around";
-			this.midDiv.style.margin = "auto";
-			this.midDiv.style.flexGrow = "1";
-			this.midDiv.style.paddingTop = "1em";
-			this.midDiv.style.paddingBottom = "1em";
-			this.midDiv.style.margin = "1em";
-			this.midDiv.style.border = "1em";
 		}
 
 		createInDiv() {
 			this.in = document.createElement("div");
-			this.in.style.justifyContent = "space-around";
-			this.in.style.height = "50%";
-			this.in.style.display = "flex";
+			this.in.setAttribute('class', 'inn');
 			this.midDiv.appendChild(this.in);
 		}
 
 		createPlayerHoles(indexHole) {
 			this.hole = document.createElement("div");
+			this.hole.setAttribute('class', 'in');
 			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
@@ -102,20 +74,6 @@ window.onload = function() {
 			};
 			// clicks hole
 			this.hole.addEventListener("click", handler);
-
-			this.hole.style.display = "flex";
-			this.hole.style.backgroundColor = "black";
-			this.hole.style.flexGrow = "1";
-			this.hole.style.paddingTop = "1em";
-			this.hole.style.paddingBottom = "1em";
-			this.hole.style.border = "auto";
-			this.hole.style.display = "inline-flex";
-			this.hole.style.backgroundColor = "#8f6a4a";
-			this.hole.style.margin = "1em";
-			this.hole.style.width = "100px"
-			this.hole.style.borderColor = "black";
-			this.hole.style.borderStyle = "solid";
-			this.hole.style.borderRadius = "30px";
 
 			// create seeds only one time
 			// 0-23 player 1
@@ -140,17 +98,7 @@ window.onload = function() {
 		createSeed() {
 			// creates seeds
 			var seed = document.createElement("div");
-
-			seed.style.paddingTop = "1em";
-			seed.style.paddingBottom = "1em";
-			seed.style.backgroundColor = "black";
-			seed.style.borderRadius = "30px";
-			seed.style.flexGrow = "1";
-			seed.style.width = "20px";
-			seed.style.height = "12px";
-			seed.style.justifyContent = "space-aroud";
-			seed.style.marginTop = "0.5em";
-			seed.style.marginBottom = "0.5em";	
+			seed.setAttribute('class', 'semente');
 			
 			return seed;
 		}

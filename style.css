@@ -28,22 +28,7 @@
 	border-style: solid;
 }
 
-
-
 .mid {
-	/*background-color: green;*/
-	justify-content: space-around;
-	display: flex;
-	flex-grow: 1;
-	padding-top: 1em;
-	padding-bottom: 1em;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	border: 1em;
-}
-
-.midd {
-	/*background-color: black;*/
 	justify-content: space-around;
 	margin: auto;
 	flex-grow: 1;
@@ -62,26 +47,30 @@
 
 .in {
 	border-radius: 30px;
-	border-style: solid;
 	background-color: #8f6a4a;
 	display: inline-flex;
 	flex-grow: 1;
 	border-color: black;
-	padding: 1em;
+	border-style: solid;
+	border: auto;
+	padding-top: 1em;
+	padding-bottom: 1em;
 	margin: 1em;
-
+	width: 100px;
+	flex-direction: column-reverse;
 }
 
 .semente {
-	background-color: #811381;
+	background-color: black;
 	border-radius: 30px;
 	flex-grow: 1;
 	width: 20px;
 	height: 12px;
 	justify-content: space-around;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
 }
 
 .s1 {
