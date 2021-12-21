@@ -73,8 +73,8 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #dbbb9e;
-	background-image: url('images/wood.jpg');
-	background-size: 120% auto;
+	background-image: url('images/wood-new.jpg');
+	background-size: 100% auto;
 	background-position: center;
 	background-repeat: repeat; /* for vertical repeat */
 	justify-content: space-around;
@@ -103,8 +103,8 @@ body {
 
 .in {
 	border-radius: 30px;
-	background-image: url('images/dark.jpg');
-	background-size: 2000% auto;
+	background-image: url('images/dark-new.jpg');
+	background-size: 90% auto;
 	background-position: center;
 	background-repeat: repeat; /* for vertical repeat */
 	display: inline-flex;
