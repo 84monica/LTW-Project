@@ -1,3 +1,55 @@
+body {
+	background: white;
+}
+
+.box{
+  width: 300px;
+  padding: 40px;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #191919;
+  text-align: center;
+  transform: scale(0);
+}
+.box h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.box input[type = "text"],.box input[type = "password"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #3498db;
+  padding: 14px 10px;
+  width: 200px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+.box input[type = "button"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  padding: 14px 40px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.box input[type = "button"]:hover{
+  background: #2ecc71;
+}
+
 .Instructions {
 	padding-left: 22px; /* rever padding */
 }
@@ -21,6 +73,10 @@
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #dbbb9e;
+	background-image: url('images/wood.jpg');
+	background-size: 120% auto;
+	background-position: center;
+	background-repeat: repeat; /* for vertical repeat */
 	justify-content: space-around;
 	width: 70%;
 	height: 500px;
@@ -47,7 +103,10 @@
 
 .in {
 	border-radius: 30px;
-	background-color: #8f6a4a;
+	background-image: url('images/dark.jpg');
+	background-size: 2000% auto;
+	background-position: center;
+	background-repeat: repeat; /* for vertical repeat */
 	display: inline-flex;
 	flex-grow: 1;
 	border-color: black;
@@ -57,35 +116,32 @@
 	padding-bottom: 1em;
 	margin: 1em;
 	width: 100px;
-	flex-direction: column-reverse;
+	flex-direction: column;
 	align-content: center;
+	justify-content: center;
 	flex: 1 1 25%;
 	flex-wrap: wrap;
 }
 
 .semente {
-	background-color: black;
-	border-radius: 30px;
-	flex-grow: 1;
+	background-color: #b29048;
+	border: 2px solid #52401b;
+	border-radius: 50%;
 	width: 20px;
 	height: 20px;
-	justify-content: space-around;
 	margin-top: 0.2em;
 	margin-bottom: 0.2em;
 	padding-top: 0.1em;
 	padding-bottom: 0.1em;
 	margin-left: 1px;
 	margin-right: 1px;
+	-webkit-box-shadow: inset 0 0 4px #000;
+    -moz-box-shadow: inset 0 0 4px #000;
+    box-shadow: inset 0 0 4px #000;
 }
 
 .s1 {
 	margin: auto;
-}
-
-#login {
-	display: block;
-	margin-left: 40%;
-	margin-right: auto;
 }
 
 #summary {
@@ -93,7 +149,7 @@
 	background-color: rgba(255, 255, 255, 0.9);
 	padding-left: 50px;
 	padding-right: 50px;
-	top: 350px;
+	top: 250px;
 	z-index: 1;
 }
 
@@ -102,7 +158,7 @@
 	background-color: rgba(255, 255, 255, 0.9);
 	padding-left: 50px;
 	padding-right: 50px;
-	top: 400px;
+	top: 300px;
 	z-index:0;
 }
 

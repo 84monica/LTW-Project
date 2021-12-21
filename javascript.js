@@ -253,4 +253,5 @@ window.onload = function() {
 	this.board = new Board();
 	// creates board
 	this.board.update();
+
 }
