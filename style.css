@@ -58,6 +58,7 @@
 	margin: 1em;
 	width: 100px;
 	flex-direction: column-reverse;
+	align-content: center;
 	flex: 1 1 25%;
 	flex-wrap: wrap;
 }
@@ -73,6 +74,8 @@
 	margin-bottom: 0.2em;
 	padding-top: 0.1em;
 	padding-bottom: 0.1em;
+	margin-left: 1px;
+	margin-right: 1px;
 }
 
 .s1 {
