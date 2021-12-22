@@ -7,18 +7,18 @@ body {
 }
 
 .box{
-  width: 300px;
-  padding: 40px;
+  width: 218px;
   position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background: #191919;
+  top: 50%;
+  left: 0.5%;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 0;
+  -webkit-box-shadow: 0 0 30px #000;
+  border-radius: 15px;
   text-align: center;
-  transform: scale(0);
 }
 .box h1{
-  color: white;
+  color: black;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -26,13 +26,13 @@ body {
   border:0;
   background: none;
   display: block;
-  margin: 20px auto;
   text-align: center;
   border: 2px solid #3498db;
+  margin: 20px auto;
   padding: 14px 10px;
-  width: 200px;
+  width: 150px;
   outline: none;
-  color: white;
+  color: black;
   border-radius: 24px;
   transition: 0.25s;
 }
@@ -45,7 +45,7 @@ body {
   border: 2px solid #2ecc71;
   padding: 14px 40px;
   outline: none;
-  color: white;
+  color: #006600;
   border-radius: 24px;
   transition: 0.25s;
   cursor: pointer;
@@ -117,8 +117,8 @@ body {
 	border-color: black;
 	border-style: solid;
 	border: auto;
-	padding-top: 1em;
-	padding-bottom: 1em;
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
 	margin: 1em;
 	width: 100px;
 	flex-direction: column;
@@ -152,10 +152,27 @@ body {
 #summary {
 	position: absolute;
 	background-color: rgba(255, 255, 255, 0.9);
+	align-content: center;
+	justify-content: center;
 	padding-left: 50px;
 	padding-right: 50px;
+	border-radius: 15px;
 	top: 250px;
 	z-index: 1;
+	-webkit-box-shadow: 0 0 30px #000;
+}
+
+summary {
+	display: flex;
+	position: relative;
+	font-weight: 600;
+	font-size: 18px;
+	height: 25px;
+	width: 118px;
+}
+
+summary span {
+	margin: auto;
 }
 
 #classification {
@@ -163,8 +180,10 @@ body {
 	background-color: rgba(255, 255, 255, 0.9);
 	padding-left: 50px;
 	padding-right: 50px;
+	border-radius: 15px;
 	top: 300px;
 	z-index:0;
+	-webkit-box-shadow: 0 0 30px #000;
 }
 
 #player {
