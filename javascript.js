@@ -254,4 +254,27 @@ window.onload = function() {
 	// creates board
 	this.board.update();
 
+	async function getFromAPI(){
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+
+		var raw = JSON.stringify({
+		  "nick": "zp",
+		  "password": "secret"
+		});
+
+		var requestOptions = {
+		  method: 'POST',
+		  headers: myHeaders,
+		  body: raw,
+		  redirect: 'follow'
+		};
+
+		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/register", requestOptions)
+		  .then(response => response.text())
+		  .then(result => console.log(result))
+		  .catch(error => console.log('error', error));
+	}
+
+	getFromAPI();
 }
