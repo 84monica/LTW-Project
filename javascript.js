@@ -278,7 +278,10 @@ window.onload = function() {
 			.then(result => console.log(result))
 			.catch(error => console.log('error', error));
 
-		document.getElementById('debug').innerHTML += 'Player registered<br>';
+
+		var debugDiv = document.getElementById('debug');
+		debugDiv.innerHTML += 'Player registered<br>';
+		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
 
 	async function getRanking(){
