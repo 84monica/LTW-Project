@@ -257,6 +257,9 @@ window.onload = function() {
 	// ranking table
 	this.ranking = [];
 
+	// initializing game to put player names
+	this.init = false;
+
 	// server functions
 	function register(){
 		var myHeaders = new Headers();
@@ -294,7 +297,8 @@ window.onload = function() {
 			method: 'POST',
 			headers: myHeaders,
 			body: raw,
-			redirect: 'follow'
+			redirect: 'follow',
+			mode: 'cors'
 		};
 
 		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/ranking", requestOptions)
@@ -353,6 +357,7 @@ window.onload = function() {
         el.appendChild(table);
 	}
 
+	// still pending don't know why
 	async function join(group, nick, pass, size, initial){
 		var myHeaders = new Headers();
 
@@ -372,17 +377,31 @@ window.onload = function() {
 			mode: 'cors'
 		};
 
+
 		const joining = await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/join", requestOptions)
 							.then(response => response.json())
 		
-		var gameHash = await joining.game;
+		var gameHash = joining.game;
 		console.log(gameHash);
 
-		var url = await "http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=joao&game=" + gameHash;
-		const updating = fetch(url)
-							.then(response => response.json())
-		console.log(updating);
-			
+		var url = await "http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=" + document.getElementById('usr').value + "&game=" + gameHash;
+
+		// maybe this should be outside this function so I can close it on leave function 
+		var source = new EventSource(url);
+		source.onopen = function(event) {
+			console.log("Connected");
+		}
+		source.onmessage = function(event) {
+			if(!this.init) {
+				var keys = Object.keys(JSON.parse(event.data).stores);
+				document.getElementById('player1').innerHTML = keys[0];
+				document.getElementById('player2').innerHTML = keys[1];
+				this.init = true;
+			}
+    		
+    		console.log(JSON.parse(event.data));
+  		};
+
 		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player ' + document.getElementById('usr').value + ' joined<br>';
