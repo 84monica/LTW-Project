@@ -23,35 +23,45 @@ body {
   font-weight: 500;
 }
 .box input[type = "text"],.box input[type = "password"]{
-  border:0;
-  background: none;
-  display: block;
-  text-align: center;
-  border: 2px solid #3498db;
-  margin: 20px auto;
-  padding: 14px 10px;
-  width: 150px;
-  outline: none;
-  color: black;
-  border-radius: 24px;
-  transition: 0.25s;
+	border:0;
+	background: none;
+	display: block;
+	text-align: center;
+	border: 2px solid #3498db;
+	margin: 20px auto;
+	padding: 14px 10px;
+	width: 150px;
+	outline: none;
+	color: black;
+	border-radius: 24px;
+	transition: 0.25s;
 }
 .box input[type = "button"]{
-  border:0;
-  background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid #2ecc71;
-  padding: 14px 40px;
-  outline: none;
-  color: #006600;
-  border-radius: 24px;
-  transition: 0.25s;
-  cursor: pointer;
+	border:0;
+	background: none;
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	border: 2px solid #2ecc71;
+	padding: 10px 0px;
+	outline: none;
+	color: #006600;
+	border-radius: 24px;
+	transition: 0.25s;
+	cursor: pointer;
+	width: 100px;
 }
 .box input[type = "button"]:hover{
-  background: #2ecc71;
+ 	background: #2ecc71;
+}
+
+#lgbtn{
+	border: 2px solid #3498db;
+	color: #014B7C;
+}
+
+#lgbtn:hover{
+	background: #3498db;
 }
 
 .Instructions {

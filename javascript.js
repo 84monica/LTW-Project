@@ -258,13 +258,12 @@ window.onload = function() {
 	this.ranking = [];
 
 	// server functions
-
 	function register(nick, password){
 		var myHeaders = new Headers();
 
 		var raw = JSON.stringify({
-			"nick": nick,
-			"password": password
+			"nick": document.getElementById('usr').value,
+			"password": document.getElementById('pw').value
 		});
 
 		var requestOptions = {
@@ -298,7 +297,6 @@ window.onload = function() {
 			.catch(error => console.log('error', error));
 
 		populateTable(this.ranking);
-
 	}
 
 	function populateTable(list){
@@ -347,8 +345,25 @@ window.onload = function() {
         var el = document.getElementById("table");
         el.innerHTML = "";
         el.appendChild(table);
-        
 	}
+
+	function join(group, nick, pass, size, initial){
+		// to do
+	}
+
+	function leave(game, nick, pass){
+		// to do
+	}
+
+	function notify(nick, pass, game, move){
+		// to do
+	}
+
+	function update(game, nick){
+		// to do
+	}
+
+	document.getElementById("regbtn").addEventListener('click', register);
 
 	getRanking();
 }
