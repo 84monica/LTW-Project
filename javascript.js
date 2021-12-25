@@ -274,11 +274,12 @@ window.onload = function() {
 		};
 
 		fetch("http://twserver.alunos.dcc.fc.up.pt:8008/register", requestOptions)
-			.then(response => response.text())
+			.then(response => response.json())
 			.then(result => console.log(result))
 			.catch(error => console.log('error', error));
 
 
+		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player registered<br>';
 		debugDiv.scrollTop = debugDiv.scrollHeight;
@@ -352,8 +353,40 @@ window.onload = function() {
         el.appendChild(table);
 	}
 
-	function join(group, nick, pass, size, initial){
-		// to do
+	async function join(group, nick, pass, size, initial){
+		var myHeaders = new Headers();
+
+		var raw = JSON.stringify({
+			"group": 20002,
+			"nick": document.getElementById('usr').value,
+			"password": document.getElementById('pw').value,
+			"size": 6,
+			"initial": 4
+		});
+
+		var requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow',
+			mode: 'cors'
+		};
+
+		const joining = await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/join", requestOptions)
+							.then(response => response.json())
+		
+		var gameHash = await joining.game;
+		console.log(gameHash);
+
+		var url = await "http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=joao&game=" + gameHash;
+		const updating = fetch(url)
+							.then(response => response.json())
+		console.log(updating);
+			
+		// updating debug chat and scrolling to the end of it
+		var debugDiv = document.getElementById('debug');
+		debugDiv.innerHTML += 'Player ' + document.getElementById('usr').value + ' joined<br>';
+		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
 
 	function leave(game, nick, pass){
@@ -369,6 +402,7 @@ window.onload = function() {
 	}
 
 	document.getElementById("regbtn").addEventListener('click', register);
+	document.getElementById("lgbtn").addEventListener('click', join);
 
 	getRanking();
 }
