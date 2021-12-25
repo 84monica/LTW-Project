@@ -285,8 +285,6 @@ window.onload = function() {
 
 		var raw = JSON.stringify({});
 
-		var list;
-
 		var requestOptions = {
 			method: 'POST',
 			headers: myHeaders,
@@ -296,12 +294,14 @@ window.onload = function() {
 
 		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/ranking", requestOptions)
 			.then(response => response.json())
-			.then(result => {this.ranking = result.ranking; console.log(result.ranking[0].nick)})
+			.then(result => this.ranking = result.ranking)
 			.catch(error => console.log('error', error));
+
+		populateTable(this.ranking);
 
 	}
 
-	function populateTable(){
+	function populateTable(list){
         var cols = [];
          
         for (var i = 0; i < list.length; i++) {
@@ -316,7 +316,6 @@ window.onload = function() {
          
         // Create a table element
         var table = document.createElement("table");
-         
         // Create table row tr element of a table
         var tr = table.insertRow(-1);
          
@@ -338,6 +337,7 @@ window.onload = function() {
             for (var j = 0; j < cols.length; j++) {
                 var cell = trow.insertCell(-1);
                  
+        		cell.setAttribute('align', 'center');
                 // Inserting the cell at particular place
                 cell.innerHTML = list[i][cols[j]];
             }
