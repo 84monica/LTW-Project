@@ -254,27 +254,101 @@ window.onload = function() {
 	// creates board
 	this.board.update();
 
-	async function getFromAPI(){
+	// ranking table
+	this.ranking = [];
+
+	// server functions
+
+	function register(nick, password){
 		var myHeaders = new Headers();
-		myHeaders.append("Content-Type", "application/json");
 
 		var raw = JSON.stringify({
-		  "nick": "zp",
-		  "password": "secret"
+			"nick": nick,
+			"password": password
 		});
 
 		var requestOptions = {
-		  method: 'POST',
-		  headers: myHeaders,
-		  body: raw,
-		  redirect: 'follow'
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
 		};
 
-		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/register", requestOptions)
-		  .then(response => response.text())
-		  .then(result => console.log(result))
-		  .catch(error => console.log('error', error));
+		fetch("http://twserver.alunos.dcc.fc.up.pt:8008/register", requestOptions)
+			.then(response => response.text())
+			.then(result => console.log(result))
+			.catch(error => console.log('error', error));
 	}
 
-	getFromAPI();
+	async function getRanking(){
+		var myHeaders = new Headers();
+
+		var raw = JSON.stringify({});
+
+		var list;
+
+		var requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow'
+		};
+
+		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/ranking", requestOptions)
+			.then(response => response.json())
+			.then(result => {this.ranking = result.ranking; console.log(result.ranking[0].nick)})
+			.catch(error => console.log('error', error));
+
+	}
+
+	function populateTable(){
+        var cols = [];
+         
+        for (var i = 0; i < list.length; i++) {
+            for (var k in list[i]) {
+                if (cols.indexOf(k) === -1) {
+                     
+                    // Push all keys to the array
+                    cols.push(k);
+                }
+            }
+        }
+         
+        // Create a table element
+        var table = document.createElement("table");
+         
+        // Create table row tr element of a table
+        var tr = table.insertRow(-1);
+         
+        for (var i = 0; i < cols.length; i++) {
+             
+            // Create the table header th element
+            var theader = document.createElement("th");
+            theader.innerHTML = cols[i];
+             
+            // Append columnName to the table row
+            tr.appendChild(theader);
+        }
+         
+        // Adding the data to the table
+        for (var i = 0; i < list.length; i++) {
+             
+            // Create a new row
+            trow = table.insertRow(-1);
+            for (var j = 0; j < cols.length; j++) {
+                var cell = trow.insertCell(-1);
+                 
+                // Inserting the cell at particular place
+                cell.innerHTML = list[i][cols[j]];
+            }
+        }
+         
+        // Add the newly created table containing json data
+        var el = document.getElementById("table");
+        el.innerHTML = "";
+        el.appendChild(table);
+        
+	}
+
+	getRanking();
 }
