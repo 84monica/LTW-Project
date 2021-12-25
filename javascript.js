@@ -258,7 +258,7 @@ window.onload = function() {
 	this.ranking = [];
 
 	// server functions
-	function register(nick, password){
+	function register(){
 		var myHeaders = new Headers();
 
 		var raw = JSON.stringify({
@@ -277,6 +277,8 @@ window.onload = function() {
 			.then(response => response.text())
 			.then(result => console.log(result))
 			.catch(error => console.log('error', error));
+
+		document.getElementById('debug').innerHTML += 'Player registered<br>';
 	}
 
 	async function getRanking(){
