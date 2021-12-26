@@ -257,6 +257,9 @@ window.onload = function() {
 	// ranking table
 	this.ranking = [];
 
+	// game hash
+	var gameHash;
+
 	// initializing game to put player names
 	this.init = false;
 
@@ -362,7 +365,7 @@ window.onload = function() {
 		var myHeaders = new Headers();
 
 		var raw = JSON.stringify({
-			"group": 20002,
+			"group": 99,
 			"nick": document.getElementById('usr').value,
 			"password": document.getElementById('pw').value,
 			"size": 6,
@@ -377,16 +380,51 @@ window.onload = function() {
 			mode: 'cors'
 		};
 
+		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/join", requestOptions)
+					.then(response => {return Promise.resolve(response.json())})
+					.then(response => {gameHash = response.game, update()})
 
-		const joining = await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/join", requestOptions)
+		// updating debug chat and scrolling to the end of it
+		var debugDiv = document.getElementById('debug');
+		debugDiv.innerHTML += 'Player ' + document.getElementById('usr').value + ' joined<br>';
+		debugDiv.scrollTop = debugDiv.scrollHeight;
+	}
+
+	async function leave(game, nick, pass){
+		var myHeaders = new Headers();
+
+		var raw = JSON.stringify({
+			"game": gameHash,
+			"nick": document.getElementById('usr').value,
+			"password": document.getElementById('pw').value,
+		});
+
+		var requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow',
+			mode: 'cors'
+		};
+
+		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/leave", requestOptions)
 							.then(response => response.json())
-		
-		var gameHash = joining.game;
-		console.log(gameHash);
+							.catch(error => console.log('error', error));	
 
-		var url = await "http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=" + document.getElementById('usr').value + "&game=" + gameHash;
+							
+		// updating debug chat and scrolling to the end of it
+		var debugDiv = document.getElementById('debug');
+		debugDiv.innerHTML += 'Left Game<br>';
+		debugDiv.scrollTop = debugDiv.scrollHeight;
+	}
 
-		// maybe this should be outside this function so I can close it on leave function 
+	function notify(nick, pass, game, move){
+		// to do
+	}
+
+	function update(game, nick){
+		var url = "http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=" + document.getElementById('usr').value + "&game=" + gameHash;
+
 		var source = new EventSource(url);
 		source.onopen = function(event) {
 			console.log("Connected");
@@ -401,27 +439,11 @@ window.onload = function() {
     		
     		console.log(JSON.parse(event.data));
   		};
-
-		// updating debug chat and scrolling to the end of it
-		var debugDiv = document.getElementById('debug');
-		debugDiv.innerHTML += 'Player ' + document.getElementById('usr').value + ' joined<br>';
-		debugDiv.scrollTop = debugDiv.scrollHeight;
-	}
-
-	function leave(game, nick, pass){
-		// to do
-	}
-
-	function notify(nick, pass, game, move){
-		// to do
-	}
-
-	function update(game, nick){
-		// to do
 	}
 
 	document.getElementById("regbtn").addEventListener('click', register);
 	document.getElementById("lgbtn").addEventListener('click', join);
+	document.getElementById("lvbtn").addEventListener('click', leave);
 
 	getRanking();
 }
