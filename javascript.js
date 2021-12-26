@@ -65,6 +65,7 @@ window.onload = function() {
 			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
+				notify(indexHole);
 				// error if clicks on opponents hole
 				if ((indexHole <= 5 && this.currentPlayer == this.player2) || (indexHole > 5 && this.currentPlayer == this.player1)) alert("That's the opponets hole!");
 				else {
@@ -250,9 +251,9 @@ window.onload = function() {
 	}
 	
 	// initializes board
-	this.board = new Board();
+	var board = new Board();
 	// creates board
-	this.board.update();
+	board.update();
 
 	// ranking table
 	this.ranking = [];
@@ -360,8 +361,7 @@ window.onload = function() {
         el.appendChild(table);
 	}
 
-	// still pending don't know why
-	async function join(group, nick, pass, size, initial){
+	async function join(group, nick, pass, size, initial) {
 		var myHeaders = new Headers();
 
 		var raw = JSON.stringify({
@@ -418,8 +418,32 @@ window.onload = function() {
 		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
 
-	function notify(nick, pass, game, move){
-		// to do
+	async function notify(move){
+		var myHeaders = new Headers();
+
+		var raw = JSON.stringify({
+			"game": gameHash,
+			"nick": document.getElementById('usr').value,
+			"password": document.getElementById('pw').value,
+			"move": move
+		});
+
+		var requestOptions = {
+			method: 'POST',
+			headers: myHeaders,
+			body: raw,
+			redirect: 'follow',
+			mode: 'cors'
+		};
+
+		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/notify", requestOptions)
+							.then(response => response.json())
+							.catch(error => console.log('error', error));	
+
+		// updating debug chat and scrolling to the end of it
+		var debugDiv = document.getElementById('debug');
+		debugDiv.innerHTML += 'Player Move index ' + move + '<br>';
+		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
 
 	function update(game, nick){
@@ -429,11 +453,25 @@ window.onload = function() {
 		source.onopen = function(event) {
 			console.log("Connected");
 		}
+
 		source.onmessage = function(event) {
 			if(!this.init) {
-				var keys = Object.keys(JSON.parse(event.data).stores);
-				document.getElementById('player1').innerHTML = keys[0];
-				document.getElementById('player2').innerHTML = keys[1];
+				var data = JSON.parse(event.data);
+				
+				// get players
+				var players = Object.keys(data.stores);
+				document.getElementById('player1').innerHTML = players[0];
+				document.getElementById('player2').innerHTML = players[1];
+
+				// get big hole seeds
+				// DOESN'T WORK
+				var bigHoleSeeds = Object.values(data.stores);
+				board.bigHoleList[0] = bigHoleSeeds[0];
+				board.bigHoleList[1] = bigHoleSeeds[1];
+				
+				// get seeds
+				// ...
+
 				this.init = true;
 			}
     		
