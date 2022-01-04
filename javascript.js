@@ -382,7 +382,7 @@ window.onload = function() {
 
 		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/join", requestOptions)
 					.then(response => {return Promise.resolve(response.json())})
-					.then(response => {gameHash = response.game, update()})
+					.then(response => {gameHash = response.game, update(), console.log(gameHash)})
 
 		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
@@ -422,9 +422,9 @@ window.onload = function() {
 		var myHeaders = new Headers();
 
 		var raw = JSON.stringify({
-			"game": gameHash,
 			"nick": document.getElementById('usr').value,
 			"password": document.getElementById('pw').value,
+			"game": gameHash,
 			"move": move
 		});
 
@@ -438,6 +438,7 @@ window.onload = function() {
 
 		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/notify", requestOptions)
 							.then(response => response.json())
+							.then(result => console.log(result))
 							.catch(error => console.log('error', error));	
 
 		// updating debug chat and scrolling to the end of it
@@ -457,7 +458,6 @@ window.onload = function() {
 		source.onmessage = function(event) {
 			if(!this.init) {
 				var data = JSON.parse(event.data);
-				
 				// get players
 				var players = Object.keys(data.stores);
 				document.getElementById('player1').innerHTML = players[0];
@@ -474,8 +474,7 @@ window.onload = function() {
 
 				this.init = true;
 			}
-    		
-    		console.log(JSON.parse(event.data));
+			console.log(JSON.parse(event.data))
   		};
 	}
 
