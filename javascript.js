@@ -512,11 +512,7 @@ window.onload = function() {
 	document.getElementById("upbtn").addEventListener('click', update);
 
 	// refresh game
-	function refreshGame() {
-		if (gameHash != -1) update();
-	}
-
-	setInterval(refreshGame(), 1000);
+	setInterval(function() {if (gameHash != 1) update()}, 1000);
 
 	// ranking
 	getRanking();
