@@ -463,45 +463,41 @@ window.onload = function() {
 		}
 
 		source.onmessage = function(event) {
-			if(!this.init) {
-				var data = JSON.parse(event.data);
-				console.log(data);
+			var data = JSON.parse(event.data);
+			console.log(data);
 
-				// get players
-				var players = Object.keys(data.stores);
-				document.getElementById('player1').innerHTML = players[0];
-				document.getElementById('player2').innerHTML = players[1];
+			// get players
+			var players = Object.keys(data.stores);
+			document.getElementById('player1').innerHTML = players[0];
+			document.getElementById('player2').innerHTML = players[1];
 
-				// get big hole seeds
-				var bigHoleSeeds = Object.values(data.stores);
-				board.bigHoleList[0] = bigHoleSeeds[0];
-				board.bigHoleList[1] = bigHoleSeeds[1];
+			// get big hole seeds
+			var bigHoleSeeds = Object.values(data.stores);
+			board.bigHoleList[0] = bigHoleSeeds[0];
+			board.bigHoleList[1] = bigHoleSeeds[1];
 
-				// get current player
-				var currentPlayer = Object.values(data.board)[0];
-				console.log(currentPlayer);
-				if (players[0] == currentPlayer) board.currentPlayer = board.player1;
-				else board.currentPlayer = board.player2;
-				
-				// get seeds
-				var player1Seeds = Object.values(Object.values(Object.values(data.board.sides))[0])[1];
-				var player2Seeds = Object.values(Object.values(Object.values(data.board.sides))[1])[1];
-				console.log(player1Seeds);
-				console.log(player2Seeds);
-				// player 1 seeds
-				for (i = 0; i < player1Seeds.length; i++) {
-					board.numberOfSeeds[i+6] = player1Seeds[i];
-				}
-				// player 2 seeds
-				for (i = 0; i < player2Seeds.length; i++) {
-					board.numberOfSeeds[i] = player2Seeds[i];
-				}
-
-				// update board
-				board.update();
-
-				this.init = true;
+			// get current player
+			var currentPlayer = Object.values(data.board)[0];
+			console.log(currentPlayer);
+			if (players[0] == currentPlayer) board.currentPlayer = board.player1;
+			else board.currentPlayer = board.player2;
+			
+			// get seeds
+			var player1Seeds = Object.values(Object.values(Object.values(data.board.sides))[0])[1];
+			var player2Seeds = Object.values(Object.values(Object.values(data.board.sides))[1])[1];
+			console.log(player1Seeds);
+			console.log(player2Seeds);
+			// player 1 seeds
+			for (i = 0; i < player1Seeds.length; i++) {
+				board.numberOfSeeds[i+6] = player1Seeds[i];
 			}
+			// player 2 seeds
+			for (i = 0; i < player2Seeds.length; i++) {
+				board.numberOfSeeds[i] = player2Seeds[i];
+			}
+
+			// update board
+			board.update();
   		}
 	}
 
