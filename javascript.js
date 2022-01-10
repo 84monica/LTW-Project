@@ -66,10 +66,10 @@ window.onload = function() {
 
 			const handler = (e) => {
 				// notify server
-				if (indexHole <= 5) notify(Math.abs(indexHole-5));
+				if (indexHole <= 5) notify(indexHole);
 				else notify(indexHole-6);
 				// error if clicks on opponents hole
-				if ((indexHole <= 5 && this.currentPlayer == this.player2) || (indexHole > 5 && this.currentPlayer == this.player1)) alert("That's the opponent's hole!");
+				if ((indexHole <= 5 && this.currentPlayer == this.player1) || (indexHole > 5 && this.currentPlayer == this.player2)) alert("That's the opponent's hole!");
 				else {
 					// select clicked hole 
 					this.moveSeed(indexHole);
@@ -79,8 +79,8 @@ window.onload = function() {
 			this.hole.addEventListener("click", handler);
 
 			// create seeds only one time
-			// 0-23 player 1
-			// 24-47 player 2
+			// 0-23 player 2
+			// 24-47 player 1
 			if (this.seeds.length != 48) {
 				// four seeds per hole
 				for (let i = 0; i < 4; i++) {
@@ -120,23 +120,23 @@ window.onload = function() {
 			// distributes seeds counter-clockwise
 			var i = 1;
 			while(seedsInHole > 0) {
-				// if big hole from player 1
-				if (indexHole+i == 6 && this.currentPlayer == this.player1) {
-					this.bigHoleList[this.player1]++;
-					seedsInHole--;
-					// if last seed is in current player big hole then player gains a free move
-					if (seedsInHole == 0) {
-						alert("Player1 gained one more round!");
-						this.changePlayer();
-					}
-				}
 				// if big hole from player 2
-				if (indexHole+i == 12 && this.currentPlayer == this.player2) {
+				if (indexHole+i == 6 && this.currentPlayer == this.player2) {
 					this.bigHoleList[this.player2]++;
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
 					if (seedsInHole == 0) {
-						alert("Player2 gained one more round!");
+						alert("Player 2 gained one more round!");
+						this.changePlayer();
+					}
+				}
+				// if big hole from player 1
+				if (indexHole+i == 12 && this.currentPlayer == this.player1) {
+					this.bigHoleList[this.player1]++;
+					seedsInHole--;
+					// if last seed is in current player big hole then player gains a free move
+					if (seedsInHole == 0) {
+						alert("Player 1 gained one more round!");
 						this.changePlayer();
 					} 
 				}
@@ -147,7 +147,7 @@ window.onload = function() {
 					// capture opponent seeds condition
 					if (seedsInHole == 0) {
 						// if ends on opponent hole do nothing
-						if ((indexHole+i <= 5 && this.currentPlayer == this.player2) || (indexHole+i > 5 && this.currentPlayer == this.player1)) break;
+						if ((indexHole+i <= 5 && this.currentPlayer == this.player1) || (indexHole+i > 5 && this.currentPlayer == this.player2)) break;
 						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
 							// if opponent has zero seeds breaks
 							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
@@ -179,17 +179,17 @@ window.onload = function() {
 			// condition to end game
 			var end = true;
 
-			// if player 2 has no seeds player 1 collects all of them
+			// if player 1 has no seeds player 2 collects all of them
 			for (let i = 5; i < 12; i++) {
 				if (this.numberOfSeeds[i] != 0) end = false;
 			}
 			if (end) {
 				// player 1 collects all of his seeds into bigHole
 				for (let i = 0; i < 6; i++) {
-					this.bigHoleList[this.player1] += this.numberOfSeeds[i];
+					this.bigHoleList[this.player2] += this.numberOfSeeds[i];
 				}
 			}
-			// if player 1 has no seeds player 2 collects all of them
+			// if player 2 has no seeds player 1 collects all of them
 			else {
 				end = true;
 				for (let i = 0; i < 6; i++) {
@@ -198,7 +198,7 @@ window.onload = function() {
 				if (end) {
 					// player 2 collects all of his seeds into bigHole
 					for (let i = 5; i < 12; i++) {
-						this.bigHoleList[this.player1] += this.numberOfSeeds[i];
+						this.bigHoleList[this.player2] += this.numberOfSeeds[i];
 					}
 				}
 			}
@@ -218,7 +218,7 @@ window.onload = function() {
 
 		showCurrentPlayer() {
 			// show current player in html
-			document.getElementById("player").innerHTML = "Player" + (this.currentPlayer+1) + ", make your move";
+			document.getElementById("player").innerHTML = "Player " + (this.currentPlayer+1) + ", make your move";
 		}
 
 		clean() {
@@ -236,19 +236,19 @@ window.onload = function() {
 			this.showCurrentPlayer();
 			this.createBoard();
 
-			// player 1 big hole
-			this.createPlayerBigHole(this.player1);
+			// player 2 big hole
+			this.createPlayerBigHole(this.player2);
 			this.createMidMidDiv();
 			this.createInDiv();
 
-			// create player holes for player 1
+			// create player holes for player 2
 			for (let i = 5; i >= 0; i--) this.createPlayerHoles(i);
 			this.createInDiv();
-			// create player holes for player 2
+			// create player holes for player 1
 			for (let i = 6; i < 12; i++) this.createPlayerHoles(i);
 
-			// player 2 big hole
-			this.createPlayerBigHole(this.player2);
+			// player 1 big hole
+			this.createPlayerBigHole(this.player1);
 		}
 	}
 	
@@ -264,7 +264,7 @@ window.onload = function() {
 	this.ranking = [];
 
 	// game hash
-	var gameHash;
+	var gameHash = -1;
 
 	// initializing game to put player names
 	this.init = false;
@@ -465,6 +465,8 @@ window.onload = function() {
 		source.onmessage = function(event) {
 			if(!this.init) {
 				var data = JSON.parse(event.data);
+				console.log(data);
+
 				// get players
 				var players = Object.keys(data.stores);
 				document.getElementById('player1').innerHTML = players[0];
@@ -474,21 +476,48 @@ window.onload = function() {
 				var bigHoleSeeds = Object.values(data.stores);
 				board.bigHoleList[0] = bigHoleSeeds[0];
 				board.bigHoleList[1] = bigHoleSeeds[1];
+
+				// get current player
+				var currentPlayer = Object.values(data.board)[0];
+				console.log(currentPlayer);
+				if (players[0] == currentPlayer) board.currentPlayer = board.player1;
+				else board.currentPlayer = board.player2;
 				
 				// get seeds
 				var player1Seeds = Object.values(Object.values(Object.values(data.board.sides))[0])[1];
 				var player2Seeds = Object.values(Object.values(Object.values(data.board.sides))[1])[1];
 				console.log(player1Seeds);
 				console.log(player2Seeds);
+				// player 1 seeds
+				for (i = 0; i < player1Seeds.length; i++) {
+					board.numberOfSeeds[i+6] = player1Seeds[i];
+				}
+				// player 2 seeds
+				for (i = 0; i < player2Seeds.length; i++) {
+					board.numberOfSeeds[i] = player2Seeds[i];
+				}
+
+				// update board
+				board.update();
 
 				this.init = true;
 			}
   		}
 	}
 
+	// buttons
 	document.getElementById("regbtn").addEventListener('click', register);
-	document.getElementById("lgbtn").addEventListener('click', join);
+	document.getElementById("jobtn").addEventListener('click', join);
 	document.getElementById("lvbtn").addEventListener('click', leave);
+	document.getElementById("upbtn").addEventListener('click', update);
 
+	// refresh game
+	function refreshGame() {
+		if (gameHash != -1) update();
+	}
+
+	setInterval(refreshGame(), 1000);
+
+	// ranking
 	getRanking();
 }
