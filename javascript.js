@@ -32,7 +32,7 @@ window.onload = function() {
 			this.bigHole.setAttribute('class', 'in');
 			this.board.appendChild(this.bigHole);
 			
-			// intializes big hole number of seeds with 0
+			// initializes big hole number of seeds with 0
 			if (this.bigHoleList.length != 2) {
 				this.bigHoleList.push(0);
 			}
@@ -65,9 +65,11 @@ window.onload = function() {
 			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
-				notify(indexHole);
+				// notify server
+				if (indexHole <= 5) notify(Math.abs(indexHole-5));
+				else notify(indexHole-6);
 				// error if clicks on opponents hole
-				if ((indexHole <= 5 && this.currentPlayer == this.player2) || (indexHole > 5 && this.currentPlayer == this.player1)) alert("That's the opponets hole!");
+				if ((indexHole <= 5 && this.currentPlayer == this.player2) || (indexHole > 5 && this.currentPlayer == this.player1)) alert("That's the opponent's hole!");
 				else {
 					// select clicked hole 
 					this.moveSeed(indexHole);
@@ -147,7 +149,7 @@ window.onload = function() {
 						// if ends on opponent hole do nothing
 						if ((indexHole+i <= 5 && this.currentPlayer == this.player2) || (indexHole+i > 5 && this.currentPlayer == this.player1)) break;
 						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
-							// if oppponent has zero seeds breaks
+							// if opponent has zero seeds breaks
 							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
 							// capture seeds
 							if (this.currentPlayer == this.player1) {
@@ -225,7 +227,7 @@ window.onload = function() {
 		}
 
 		update() {
-			// upates board by cleaning and creating a new one
+			// updates board by cleaning and creating a new one
 			// cleans board
 			this.clean();
 			this.endGame();
@@ -254,6 +256,9 @@ window.onload = function() {
 	var board = new Board();
 	// creates board
 	board.update();
+
+	// SERVER
+	// ---------------------------------
 
 	// ranking table
 	this.ranking = [];
@@ -441,6 +446,8 @@ window.onload = function() {
 							.then(result => console.log(result))
 							.catch(error => console.log('error', error));	
 
+		update();
+
 		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player Move index ' + move + '<br>';
@@ -464,18 +471,19 @@ window.onload = function() {
 				document.getElementById('player2').innerHTML = players[1];
 
 				// get big hole seeds
-				// DOESN'T WORK
 				var bigHoleSeeds = Object.values(data.stores);
 				board.bigHoleList[0] = bigHoleSeeds[0];
 				board.bigHoleList[1] = bigHoleSeeds[1];
 				
 				// get seeds
-				// ...
+				var player1Seeds = Object.values(Object.values(Object.values(data.board.sides))[0])[1];
+				var player2Seeds = Object.values(Object.values(Object.values(data.board.sides))[1])[1];
+				console.log(player1Seeds);
+				console.log(player2Seeds);
 
 				this.init = true;
 			}
-			console.log(JSON.parse(event.data))
-  		};
+  		}
 	}
 
 	document.getElementById("regbtn").addEventListener('click', register);
