@@ -446,8 +446,6 @@ window.onload = function() {
 							.then(result => console.log(result))
 							.catch(error => console.log('error', error));	
 
-		update();
-
 		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player Move index ' + move + '<br>';
@@ -505,10 +503,9 @@ window.onload = function() {
 	document.getElementById("regbtn").addEventListener('click', register);
 	document.getElementById("jobtn").addEventListener('click', join);
 	document.getElementById("lvbtn").addEventListener('click', leave);
-	document.getElementById("upbtn").addEventListener('click', update);
 
 	// refresh game
-	setInterval(function() {if (gameHash != 1) update()}, 1000);
+	setInterval(function() {if (gameHash != -1) update()}, 1000);
 
 	// ranking
 	getRanking();
