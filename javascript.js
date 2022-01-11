@@ -65,12 +65,12 @@ window.onload = function() {
 			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
-				// notify server
-				if (indexHole <= 5) notify(indexHole);
-				else notify(indexHole-6);
 				// error if clicks on opponents hole
 				if ((indexHole <= 5 && this.currentPlayer == this.player1) || (indexHole > 5 && this.currentPlayer == this.player2)) alert("That's the opponent's hole!");
 				else {
+					// notify server
+					if (indexHole <= 5) notify(indexHole);
+					else notify(indexHole-6);
 					// select clicked hole 
 					this.moveSeed(indexHole);
 				}
@@ -493,7 +493,7 @@ window.onload = function() {
 			for (i = 0; i < player2Seeds.length; i++) {
 				board.numberOfSeeds[i] = player2Seeds[i];
 			}
-
+			
 			// update board
 			board.update();
   		}
@@ -503,9 +503,6 @@ window.onload = function() {
 	document.getElementById("regbtn").addEventListener('click', register);
 	document.getElementById("jobtn").addEventListener('click', join);
 	document.getElementById("lvbtn").addEventListener('click', leave);
-
-	// refresh game
-	setInterval(function() {if (gameHash != -1) update()}, 1000);
 
 	// ranking
 	getRanking();
