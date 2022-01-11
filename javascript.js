@@ -417,7 +417,8 @@ window.onload = function() {
 							
 		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
-		debugDiv.innerHTML += 'Left Game<br>';
+		debugDiv.innerHTML += document.getElementById('usr').value;
+		debugDiv.innerHTML += ' left the game<br>';
 		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
 
