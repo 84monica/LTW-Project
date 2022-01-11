@@ -488,49 +488,57 @@ window.onload = function() {
 			var data = JSON.parse(event.data);
 			console.log(data);
 
-			if(!started){
-				players = Object.keys(data.stores);
-				document.getElementById('player1').innerHTML = players[0];
-				document.getElementById('player2').innerHTML = players[1];
-				if(name == players[0]){
-					nameNumber = board.player1;
-				}else{
-					nameNumber = board.player2;
+			var winner = Object.keys(data)[0];
+			if (winner == 'winner') {
+				var winnerName = Object.values(data)[0];
+				alert(winnerName + " won the game!");
+			} else {
+				if(!started){
+					players = Object.keys(data.stores);
+					document.getElementById('player1').innerHTML = players[0];
+					document.getElementById('player2').innerHTML = players[1];
+					if(name == players[0]){
+						nameNumber = board.player1;
+					}else{
+						nameNumber = board.player2;
+					}
+					board.currentPlayer = board.player1;
+					console.log("Player " + nameNumber + ", iniciates since the current player is: " + board.currentPlayer);
+					started = true;
 				}
-				board.currentPlayer = board.player1;
-				console.log("Player " + nameNumber + ", iniciates since the current player is: " + board.currentPlayer);
-				started = true;
+
+				// get big hole seeds
+				if(data.stores == null) return;
+				var bigHoleSeeds = Object.values(data.stores);
+				board.bigHoleList[0] = bigHoleSeeds[0];
+				board.bigHoleList[1] = bigHoleSeeds[1];
+
+				// get current player
+				var currentPlayer = Object.values(data.board)[0];
+				console.log(currentPlayer);
+
+				if (players[0] == currentPlayer) board.currentPlayer = board.player1;
+				else board.currentPlayer = board.player2;
+				
+				// get seeds
+				var player1Seeds = Object.values(Object.values(Object.values(data.board.sides))[0])[1];
+				var player2Seeds = Object.values(Object.values(Object.values(data.board.sides))[1])[1];
+				console.log(player1Seeds);
+				console.log(player2Seeds);
+				// player 1 seeds
+				for (i = 0; i < player1Seeds.length; i++) {
+					board.numberOfSeeds[i+6] = player1Seeds[i];
+				}
+				// player 2 seeds
+				for (i = 0; i < player2Seeds.length; i++) {
+					board.numberOfSeeds[i] = player2Seeds[i];
+				}
+
+				// update board
+				board.update();
 			}
 
-			// get big hole seeds
-			if(data.stores == null) return;
-			var bigHoleSeeds = Object.values(data.stores);
-			board.bigHoleList[0] = bigHoleSeeds[0];
-			board.bigHoleList[1] = bigHoleSeeds[1];
-
-			// get current player
-			var currentPlayer = Object.values(data.board)[0];
-			console.log(currentPlayer);
-
-			if (players[0] == currentPlayer) board.currentPlayer = board.player1;
-			else board.currentPlayer = board.player2;
 			
-			// get seeds
-			var player1Seeds = Object.values(Object.values(Object.values(data.board.sides))[0])[1];
-			var player2Seeds = Object.values(Object.values(Object.values(data.board.sides))[1])[1];
-			console.log(player1Seeds);
-			console.log(player2Seeds);
-			// player 1 seeds
-			for (i = 0; i < player1Seeds.length; i++) {
-				board.numberOfSeeds[i+6] = player1Seeds[i];
-			}
-			// player 2 seeds
-			for (i = 0; i < player2Seeds.length; i++) {
-				board.numberOfSeeds[i] = player2Seeds[i];
-			}
-
-			// update board
-			board.update();
   		}
 	}
 
@@ -538,7 +546,6 @@ window.onload = function() {
 	document.getElementById("regbtn").addEventListener('click', register);
 	document.getElementById("jobtn").addEventListener('click', join);
 	document.getElementById("lvbtn").addEventListener('click', leave);
-	document.getElementById("upbtn").addEventListener('click', update);
 
 	// refresh game
 	// setInterval(function() {if (gameHash != -1) update()}, 1000);
