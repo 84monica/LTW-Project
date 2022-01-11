@@ -65,16 +65,24 @@ window.onload = function() {
 			this.in.appendChild(this.hole);
 
 			const handler = (e) => {
+				console.log("Move = " + this.currentPlayer + " : " + nameNumber);
+				// error if clicks on opponents hole
+				if ((indexHole <= 5 && this.currentPlayer == this.player1) || (indexHole > 5 && this.currentPlayer == this.player2)){
+					alert("That's the opponent's hole!");
+					return;
+				}
+				if ((this.currentPlayer != nameNumber)){
+					alert("That's the opponent's hole!");
+					return;
+				}
+
 				// notify server
 				if (indexHole <= 5) notify(indexHole);
 				else notify(indexHole-6);
-				// error if clicks on opponents hole
-				if ((indexHole <= 5 && this.currentPlayer == this.player1) || (indexHole > 5 && this.currentPlayer == this.player2)) alert("That's the opponent's hole!");
-				else {
-					// select clicked hole 
-					this.moveSeed(indexHole);
-				}
+				// select clicked hole 
+				this.moveSeed(indexHole);
 			};
+
 			// clicks hole
 			this.hole.addEventListener("click", handler);
 
@@ -86,7 +94,6 @@ window.onload = function() {
 				for (let i = 0; i < 4; i++) {
 					var seed = this.createSeed();
 					this.seeds.push(seed);
-
 					this.hole.appendChild(seed);
 				}
 				this.numberOfSeeds.push(4);
@@ -147,8 +154,12 @@ window.onload = function() {
 					// capture opponent seeds condition
 					if (seedsInHole == 0) {
 						// if ends on opponent hole do nothing
-						if ((indexHole+i <= 5 && this.currentPlayer == this.player1) || (indexHole+i > 5 && this.currentPlayer == this.player2)) break;
+						if ((indexHole+i <= 5 && this.currentPlayer == this.player1) || (indexHole+i > 5 && this.currentPlayer == this.player2)){
+							console.log("opponent's hole");
+							break;
+						}
 						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
+
 							// if opponent has zero seeds breaks
 							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
 							// capture seeds
@@ -212,8 +223,10 @@ window.onload = function() {
 
 		changePlayer() {
 			// updates player if the other player has made its move
-			if (this.currentPlayer == this.player2) this.currentPlayer = this.player1;
-			else this.currentPlayer = this.player2;
+			if (this.currentPlayer == this.player2)
+				this.currentPlayer = this.player1;
+			else
+				this.currentPlayer = this.player2;
 		}
 
 		showCurrentPlayer() {
@@ -268,6 +281,10 @@ window.onload = function() {
 
 	// initializing game to put player names
 	this.init = false;
+
+	// storing the name
+	var name = "";
+	var nameNumber = -1;
 
 	// server functions
 	function register(){
@@ -369,6 +386,8 @@ window.onload = function() {
 	async function join(group, nick, pass, size, initial) {
 		var myHeaders = new Headers();
 
+		name = document.getElementById('usr').value;
+
 		var raw = JSON.stringify({
 			"group": 99,
 			"nick": document.getElementById('usr').value,
@@ -393,6 +412,8 @@ window.onload = function() {
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player ' + document.getElementById('usr').value + ' joined<br>';
 		debugDiv.scrollTop = debugDiv.scrollHeight;
+
+		update(12, 12);
 	}
 
 	async function leave(game, nick, pass){
@@ -444,15 +465,16 @@ window.onload = function() {
 		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/notify", requestOptions)
 							.then(response => response.json())
 							.then(result => console.log(result))
-							.catch(error => console.log('error', error));	
-
-		update();
+							.catch(error => console.log('error', error));
 
 		// updating debug chat and scrolling to the end of it
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player Move index ' + move + '<br>';
 		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
+
+	var started = false;
+	var players;
 
 	function update(game, nick){
 		var url = "http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=" + document.getElementById('usr').value + "&game=" + gameHash;
@@ -466,12 +488,22 @@ window.onload = function() {
 			var data = JSON.parse(event.data);
 			console.log(data);
 
-			// get players
-			var players = Object.keys(data.stores);
-			document.getElementById('player1').innerHTML = players[0];
-			document.getElementById('player2').innerHTML = players[1];
+			if(!started){
+				players = Object.keys(data.stores);
+				document.getElementById('player1').innerHTML = players[0];
+				document.getElementById('player2').innerHTML = players[1];
+				if(name == players[0]){
+					nameNumber = board.player1;
+				}else{
+					nameNumber = board.player2;
+				}
+				board.currentPlayer = board.player1;
+				console.log("Player " + nameNumber + ", iniciates since the current player is: " + board.currentPlayer);
+				started = true;
+			}
 
 			// get big hole seeds
+			if(data.stores == null) return;
 			var bigHoleSeeds = Object.values(data.stores);
 			board.bigHoleList[0] = bigHoleSeeds[0];
 			board.bigHoleList[1] = bigHoleSeeds[1];
@@ -479,6 +511,7 @@ window.onload = function() {
 			// get current player
 			var currentPlayer = Object.values(data.board)[0];
 			console.log(currentPlayer);
+
 			if (players[0] == currentPlayer) board.currentPlayer = board.player1;
 			else board.currentPlayer = board.player2;
 			
@@ -508,7 +541,7 @@ window.onload = function() {
 	document.getElementById("upbtn").addEventListener('click', update);
 
 	// refresh game
-	setInterval(function() {if (gameHash != 1) update()}, 1000);
+	// setInterval(function() {if (gameHash != -1) update()}, 1000);
 
 	// ranking
 	getRanking();
