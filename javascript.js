@@ -149,8 +149,6 @@ window.onload = function() {
 						// if ends on opponent hole do nothing
 						if ((indexHole+i <= 5 && this.currentPlayer == this.player1) || (indexHole+i > 5 && this.currentPlayer == this.player2)) break;
 						if (this.numberOfSeeds[(indexHole+i)%12] == 1) {
-							// if opponent has zero seeds breaks
-							if (this.numberOfSeeds[11-((indexHole+i)%12)] == 0) break;
 							// capture seeds
 							if (this.currentPlayer == this.player1) {
 								this.bigHoleList[0] += this.numberOfSeeds[(indexHole+i)%12] + this.numberOfSeeds[11-((indexHole+i)%12)];
@@ -493,7 +491,7 @@ window.onload = function() {
 			for (i = 0; i < player2Seeds.length; i++) {
 				board.numberOfSeeds[i] = player2Seeds[i];
 			}
-			
+
 			// update board
 			board.update();
   		}
