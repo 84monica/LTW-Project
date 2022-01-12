@@ -71,6 +71,7 @@ window.onload = function() {
 					alert("That's the opponent's hole!");
 					return;
 				}
+				// error if click tries to play on opponents hole on server
 				if ((this.currentPlayer != nameNumber && nameNumber != -1)){
 					alert("That's the opponent's hole!");
 					return;
@@ -79,7 +80,8 @@ window.onload = function() {
 				// notify server
 				if (indexHole <= 5) notify(indexHole);
 				else notify(indexHole-6);
-				// select clicked hole 
+
+				// select clicked hole
 				this.moveSeed(indexHole);
 			};
 
@@ -186,6 +188,10 @@ window.onload = function() {
 			this.update();
 		}
 
+		startGameComputer() {
+			document.getElementById('player2').innerHTML = "Computer";
+		}
+
 		endGame() {
 			// condition to end game
 			var end = true;
@@ -262,6 +268,13 @@ window.onload = function() {
 
 			// player 1 big hole
 			this.createPlayerBigHole(this.player1);
+
+			// if play is against computer
+			if (this.currentPlayer == this.player2 && document.getElementById('player2').innerHTML == "Computer") {
+				// computer makes random move
+				var randomNumber = Math.floor(Math.random() * 6);
+				this.moveSeed(randomNumber);
+			}
 		}
 	}
 	
@@ -269,6 +282,9 @@ window.onload = function() {
 	var board = new Board();
 	// creates board
 	board.update();
+
+	// computer game
+	document.getElementById("pcbtn").addEventListener('click', board.startGameComputer);
 
 	// SERVER
 	// ---------------------------------
