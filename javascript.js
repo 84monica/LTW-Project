@@ -320,7 +320,7 @@ window.onload = function() {
 
 		fetch("http://twserver.alunos.dcc.fc.up.pt:8008/register", requestOptions)
 			.then(response => response.json())
-			.then(result => console.log(result))
+			.then(result => {if (Object.values(result)[0] != undefined) alert(Object.values(result)[0])})
 			.catch(error => console.log('error', error));
 
 
