@@ -71,7 +71,7 @@ window.onload = function() {
 					alert("That's the opponent's hole!");
 					return;
 				}
-				if ((this.currentPlayer != nameNumber)){
+				if ((this.currentPlayer != nameNumber && nameNumber != -1)){
 					alert("That's the opponent's hole!");
 					return;
 				}
@@ -473,6 +473,7 @@ window.onload = function() {
 		debugDiv.scrollTop = debugDiv.scrollHeight;
 	}
 
+	// update variables
 	var started = false;
 	var players;
 
@@ -546,9 +547,6 @@ window.onload = function() {
 	document.getElementById("regbtn").addEventListener('click', register);
 	document.getElementById("jobtn").addEventListener('click', join);
 	document.getElementById("lvbtn").addEventListener('click', leave);
-
-	// refresh game
-	// setInterval(function() {if (gameHash != -1) update()}, 1000);
 
 	// ranking
 	getRanking();
