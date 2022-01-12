@@ -135,7 +135,7 @@ window.onload = function() {
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
 					if (seedsInHole == 0) {
-						alert("Player 2 gained one more round!");
+						alert(document.getElementById("player2").innerHTML + " gained one more round!");
 						this.changePlayer();
 					}
 				}
@@ -145,7 +145,7 @@ window.onload = function() {
 					seedsInHole--;
 					// if last seed is in current player big hole then player gains a free move
 					if (seedsInHole == 0) {
-						alert("Player 1 gained one more round!");
+						alert(document.getElementById("player1").innerHTML + " gained one more round!");
 						this.changePlayer();
 					} 
 				}
@@ -222,8 +222,8 @@ window.onload = function() {
 
 			// wins the player with more seeds in the bigHoles
 			if (end) {
-				if (this.bigHoleList[this.player1] > this.bigHoleList[this.player2]) alert("Congratulations, Player1 won the Game!");
-				else alert("Congratulations, Player2 won the Game!");
+				if (this.bigHoleList[this.player1] > this.bigHoleList[this.player2]) alert("Congratulations, " + document.getElementById("player1").innerHTML + " won the Game!");
+				else alert("Congratulations, " + document.getElementById("player2").innerHTML + " won the Game!");
 			}
 		}
 
@@ -237,7 +237,8 @@ window.onload = function() {
 
 		showCurrentPlayer() {
 			// show current player in html
-			document.getElementById("player").innerHTML = "Player " + (this.currentPlayer+1) + ", make your move";
+			if (this.currentPlayer == this.player1) document.getElementById("player").innerHTML = document.getElementById("player1").innerHTML + ", make your move";
+			else document.getElementById("player").innerHTML = document.getElementById("player2").innerHTML + ", make your move";
 		}
 
 		clean() {
@@ -428,8 +429,6 @@ window.onload = function() {
 		var debugDiv = document.getElementById('debug');
 		debugDiv.innerHTML += 'Player ' + document.getElementById('usr').value + ' joined<br>';
 		debugDiv.scrollTop = debugDiv.scrollHeight;
-
-		update(12, 12);
 	}
 
 	async function leave(game, nick, pass){
@@ -505,6 +504,7 @@ window.onload = function() {
 			var data = JSON.parse(event.data);
 			console.log(data);
 
+			// DISPLAY GAME
 			var winner = Object.keys(data)[0];
 			if (winner == 'winner') {
 				var winnerName = Object.values(data)[0];
@@ -520,7 +520,7 @@ window.onload = function() {
 						nameNumber = board.player2;
 					}
 					board.currentPlayer = board.player1;
-					console.log("Player " + nameNumber + ", iniciates since the current player is: " + board.currentPlayer);
+					console.log("Player " + nameNumber + ", initiates since the current player is: " + board.currentPlayer);
 					started = true;
 				}
 
