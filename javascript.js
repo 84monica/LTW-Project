@@ -274,6 +274,9 @@ window.onload = function() {
 			if (this.currentPlayer == this.player2 && document.getElementById('player2').innerHTML == "Computer") {
 				// computer makes random move
 				var randomNumber = Math.floor(Math.random() * 6);
+				while(this.numberOfSeeds[randomNumber] == 0){
+					randomNumber = Math.floor(Math.random() * 6);
+				}
 				this.moveSeed(randomNumber);
 			}
 		}
