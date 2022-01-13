@@ -352,6 +352,8 @@ window.onload = function() {
 			.then(result => this.ranking = result.ranking)
 			.catch(error => console.log('error', error));
 
+		console.log(this.ranking);
+
 		populateTable(this.ranking);
 	}
 
