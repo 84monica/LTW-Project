@@ -347,12 +347,13 @@ window.onload = function() {
 			mode: 'cors'
 		};
 
-		await fetch("http://twserver.alunos.dcc.fc.up.pt:8008/ranking", requestOptions)
+
+		await fetch("http://localhost:8008/ranking", requestOptions)
 			.then(response => response.json())
 			.then(result => this.ranking = result.ranking)
 			.catch(error => console.log('error', error));
 
-		console.log(this.ranking);
+		//console.log(this.ranking);
 
 		populateTable(this.ranking);
 	}
