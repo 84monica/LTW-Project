@@ -22,6 +22,7 @@ const server = http.createServer(function (request, response) {
     let answer = { status: 200, data: {}};
 
     switch (pathName) {
+        // REGISTER FUNCTION
         case '/register':
             let body = '';
             request.on('data', function (chunk) { body += chunk; });
@@ -38,20 +39,21 @@ const server = http.createServer(function (request, response) {
             });
             request.on('error', (error) => { console.log(error.message); answer.status = 400; })
             break;
+        // RANKING FUNCTION
+        case '/ranking':
+            answer.status = 200;
+            answer.data = JSON.parse(fs.readFileSync('ranking.json'));
+            break;
         default:
             answer.status = 404;
             break;
-    }
-
-    if (answer.status === undefined) {
-        answer.status = 200;
     }
     
     response.writeHead(answer.status, headers['plain']);
     response.end(JSON.stringify(answer.data));
 });
 
-server.listen(8080);
+server.listen(8008);
 
 function register(nick, password) {
     let users = [];
