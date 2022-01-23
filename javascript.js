@@ -322,7 +322,7 @@ window.onload = function() {
 			redirect: 'follow'
 		};
 
-		fetch("http://localhost:8008/register", requestOptions)
+		fetch("http://twserver.alunos.dcc.fc.up.pt:9037/register", requestOptions)
 			.then(response => response.json())
 			.then(result => {if (Object.values(result)[0] != undefined) alert(Object.values(result)[0])})
 			.catch(error => console.log('error', error));
@@ -348,7 +348,7 @@ window.onload = function() {
 		};
 
 
-		await fetch("http://localhost:8008/ranking", requestOptions)
+		await fetch("http://twserver.alunos.dcc.fc.up.pt:9037/ranking", requestOptions)
 			.then(response => response.json())
 			.then(result => this.ranking = result.ranking)
 			.catch(error => console.log('error', error));

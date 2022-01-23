@@ -53,7 +53,7 @@ const server = http.createServer(function (request, response) {
     response.end(JSON.stringify(answer.data));
 });
 
-server.listen(8008);
+server.listen(9037);
 
 function register(nick, password) {
     let users = [];
